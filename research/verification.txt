@@ -1,0 +1,16 @@
+Ritmo — verificação em 19/10/2026
+
+Automação: 9 testes aprovados (npm test).
+Cobertura: agenda 3/4/5 dias, datas locais e início futuro, espaçamento dos inferiores, adaptação e volume, integridade das mídias, importação validada, cache restrito ao próprio app.
+
+Navegador: layouts em 320, 390 e 1440 pixels; configuração de cinco dias; treino de hoje, amanhã e calendário; modal de exercício; carga de teste de 20 kg e 10 repetições; marcação de série; cronômetro; persistência após recarga; histórico; exportação e importação de cópia JSON. Sem erros JavaScript detectados nessa revisão.
+
+Offline: em origem local dedicada (127.0.0.1:43187), após primeiro carregamento e instalação do service worker, servidor encerrado e página recarregada com sucesso. Fichas e navegação permaneceram disponíveis. Vídeos e miniaturas externos exigem conexão; esse teste não simula todos os modos de economia/limpeza de armazenamento dos celulares.
+
+Mídias: 15 IDs do YouTube com metadados oEmbed e miniaturas oficiais inspecionadas, mostrando mulheres. Cinco vídeos em português, dez em inglês. Variantes explicitadas nos JSONs e na interface. Não assistidos integralmente. Player incorporado de hip thrust abriu na prévia com título, canal, controles e duração; não foi certificada reprodução completa de todos os vídeos.
+
+Limites: verificação em navegador desktop com dimensões móveis, sem teste em aparelho Android/iPhone físico. Persistência depende do navegador e da origem; não há sincronização entre dispositivos. Plano educativo geral para adulta iniciante, sem informações individuais sobre lesões, gestação ou condições clínicas.
+
+Preparação open source e Docker (19/10/2026): fonte formatada; nove testes aprovados novamente; npm audit sem vulnerabilidades (sem dependências externas). Imagem nginx 1.30.6 Alpine fixada por digest. Scanner Trivy 0.76.0 encontrou libexpat/libx11 com correções disponíveis; ambos atualizados no Dockerfile. Nova análise não encontrou vulnerabilidades HIGH/CRITICAL. Esse resultado é um recorte de severidade e data, não garantia de ausência de falhas.
+
+Container local: UID/GID 101:101, filesystem somente leitura, /tmp temporário, capabilities removidas; health check aprovado e /health, página inicial e JSON de fichas servidos. Produção ainda depende da conclusão do deploy no Coolify.

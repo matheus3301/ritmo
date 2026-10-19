@@ -1,0 +1,56 @@
+[
+  {
+    "id": "1",
+    "title": "ACSM (2026). Atualização das diretrizes de treinamento resistido.",
+    "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+    "description": "Comunicado oficial sobre o posicionamento que reuniu 137 revisões e mais de 30 mil participantes. Orienta regularidade, individualização e volume. Consultado o resumo oficial; o posicionamento integral não foi usado como se tivesse sido lido."
+  },
+  {
+    "id": "2",
+    "title": "Krause Neto, Krause e Gama (2025). The impact of resistance training on gluteus maximus hypertrophy.",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40276368/",
+    "description": "Revisão sistemática e meta-análise: 12 artigos incluídos. Sustenta diferentes exercícios de extensão do quadril. Consultados resumo e trechos do texto integral indexado. DOI: 10.3389/fphys.2025.1542334."
+  },
+  {
+    "id": "3",
+    "title": "Plotkin et al. (2023). Hip thrust and back squat training elicit similar gluteus muscle hypertrophy and transfer similarly to the deadlift.",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/37877099/",
+    "description": "Ensaio de 9 semanas, 34 participantes sem treinamento, avaliação por ressonância. Consultados resumo e resultados indexados da versão publicada, não a pré-publicação. DOI: 10.3389/fphys.2023.1279170."
+  },
+  {
+    "id": "4",
+    "title": "Murphy e Koehler (2022). Energy deficiency impairs resistance training gains in lean mass but not strength.",
+    "url": "https://doi.org/10.1111/sms.14075",
+    "description": "Meta-análise e meta-regressão. Consultados trechos indexados do artigo e de sua cópia institucional. Limitação: acesso integral pelo navegador indisponível. A associação com déficit energético é uma média de estudos, não um limite individual de calorias."
+  },
+  {
+    "id": "5",
+    "title": "Morton et al. (2018). Protein supplementation and resistance training-induced gains in muscle mass and strength.",
+    "url": "https://bjsm.bmj.com/content/early/2018/01/18/bjsports-2017-097608?versioned=true",
+    "description": "Revisão sistemática, meta-análise e meta-regressão; 49 estudos, 1.863 participantes. Consultados resultados e conclusão indexados. DOI: 10.1136/bjsports-2017-097608. Os estudos não representam especificamente mulheres iniciantes em déficit energético."
+  },
+  {
+    "id": "6",
+    "title": "Schumann et al. (2022). Compatibility of Concurrent Aerobic and Strength Training for Skeletal Muscle Size and Function.",
+    "url": "https://link.springer.com/content/pdf/10.1007/s40279-021-01587-7.pdf",
+    "description": "Revisão sistemática e meta-análise com 43 estudos. Consultado PDF, sobretudo resumo e resultados. DOI: 10.1007/s40279-021-01587-7. A conclusão sobre hipertrofia não garante ausência de fadiga em toda combinação de treinos."
+  },
+  {
+    "id": "7",
+    "title": "OMS (2020). WHO guidelines on physical activity and sedentary behaviour: at a glance.",
+    "url": "https://www.who.int/europe/publications/i/item/9789240014886",
+    "description": "Diretriz de saúde pública. Consultado resumo oficial das recomendações para adultos. A faixa de atividade aeróbica serve à saúde; não é garantia de emagrecimento."
+  },
+  {
+    "id": "8",
+    "title": "Ramirez-Campillo et al. (2022). A proposed model to test the hypothesis of exercise-induced localized fat reduction (spot reduction), including a systematic review with meta-analysis.",
+    "url": "https://hummov.awf.wroc.pl/pdf-143162-103926?filename=103926.pdf",
+    "description": "Revisão sobre treino localizado e gordura local. Consultados PDF e conclusão indexada; não sustenta prometer perda de gordura apenas na região treinada."
+  },
+  {
+    "id": "9",
+    "title": "CDC (2024). FastStats: Sleep in Adults.",
+    "url": "https://www.cdc.gov/sleep/data-research/facts-stats/adults-sleep-facts-and-stats.html",
+    "description": "Página institucional sobre sono, consultada para a recomendação geral de pelo menos 7 horas diárias em adultos."
+  }
+]

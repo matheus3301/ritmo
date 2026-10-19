@@ -1,0 +1,105 @@
+{
+  "researchedAt": "2026-10-19T21:55:15.632247+00:00",
+  "purpose": "Selecionar skills adequadas para aplicação estática mobile first de treino ABC, sem backend, com preferências e progresso locais.",
+  "method": "Fontes primárias: catálogo skills.sh para instalações e GitHub API para estrelas atuais. SKILL.md lidos diretamente dos repositórios. Popularidade é um sinal de adoção, não prova comparativa de qualidade. Valores do catálogo são arredondados e podem estar defasados em relação ao GitHub.",
+  "recommendation": "Combinar frontend-design para identidade e hierarquia com web-design-guidelines para acessibilidade e revisão. Usar Impeccable como referência complementar de acabamento e teste dos fluxos. Evitar adicionar várias skills redundantes ou um framework apenas por popularidade.",
+  "candidates": [
+    {
+      "name": "frontend-design",
+      "repository": "anthropics/skills",
+      "role": "Direção visual principal",
+      "recommended": true,
+      "installsDisplayed": "1.0M",
+      "githubStars": 182216,
+      "catalogUrl": "https://www.skills.sh/anthropics/skills/frontend-design",
+      "githubUrl": "https://github.com/anthropics/skills",
+      "skillUrl": "https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md",
+      "why": "Direção visual específica ao produto, conteúdo real, tipografia intencional e crítica visual. É independente de framework e encaixa numa aplicação estática.",
+      "applicable": [
+        "Definir poucos tokens de cor, tipografia, espaçamento e estados antes de implementar.",
+        "Abrir a experiência com a tarefa real: treino de hoje e próxima ação.",
+        "Fazer uma escolha visual marcante e manter os controles discretos e legíveis.",
+        "Usar textos curtos que explicam a ação: escolher dias, ver execução, concluir série.",
+        "Verificar a interface renderizada em celular, foco por teclado e movimento reduzido."
+      ]
+    },
+    {
+      "name": "web-design-guidelines",
+      "repository": "vercel-labs/agent-skills",
+      "role": "Revisão de acessibilidade, interação e desempenho",
+      "recommended": true,
+      "installsDisplayed": "757.6K",
+      "githubStars": 32657,
+      "catalogUrl": "https://www.skills.sh/vercel-labs/agent-skills/web-design-guidelines",
+      "githubUrl": "https://github.com/vercel-labs/agent-skills",
+      "skillUrl": "https://github.com/vercel-labs/agent-skills/blob/main/skills/web-design-guidelines/SKILL.md",
+      "guidelinesUrl": "https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md",
+      "why": "Critérios verificáveis para controles, foco, imagens e uso em dispositivos móveis; útil sem React ou serviços Vercel.",
+      "applicable": [
+        "Buscar a versão atual das diretrizes na revisão final.",
+        "Usar botões e links semânticos, rótulos e nomes acessíveis.",
+        "Preservar foco visível, zoom e acesso por teclado.",
+        "Considerar áreas seguras do celular e evitar rodapé sobre controles focados.",
+        "Dar dimensões às imagens e adiar mídia abaixo da dobra.",
+        "Tratar estados vazios, erro e conclusão; anunciar mudanças relevantes sem interromper.",
+        "Usar Intl.DateTimeFormat para datas locais.",
+        "Manter estados de navegação compartilháveis na URL quando úteis; dados pessoais permanecem no armazenamento local."
+      ],
+      "interpretation": "Regras de capitalização em inglês não devem forçar Title Case no português; manter vocabulário e estilo consistentes com beautiful-prose."
+    },
+    {
+      "name": "impeccable",
+      "repository": "pbakaus/impeccable",
+      "versionRead": "4.7.0",
+      "role": "Referência complementar de qualidade de produto",
+      "recommended": "complementary",
+      "installsDisplayed": "343.7K",
+      "githubStars": 83176,
+      "catalogUrl": "https://www.skills.sh/pbakaus/impeccable/impeccable",
+      "githubUrl": "https://github.com/pbakaus/impeccable",
+      "skillUrl": "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md",
+      "why": "Distingue interfaces operacionais de páginas de marketing e prioriza tarefa, leitura e consistência. A aplicação de treino é uma interface operacional.",
+      "applicable": [
+        "Escolher o modo Operate: localizar treino e concluir exercício devem ser imediatos.",
+        "Testar o percurso inteiro em tamanhos móveis e desktop.",
+        "Priorizar tarefas bloqueadas e perda de dados antes de detalhes cosméticos.",
+        "Verificar retorno após interrupção, conteúdo longo, rede lenta e estados sem dados."
+      ],
+      "notes": "Leitura para pesquisa, sem instalação e sem execução do launcher. Para invocação integral seguir o contexto e as referências do próprio pacote."
+    },
+    {
+      "name": "polish / critique",
+      "repository": "pbakaus/impeccable",
+      "role": "Etapas de acabamento e avaliação",
+      "recommended": "references",
+      "installsDisplayed": {
+        "polish": "85.2K",
+        "critique": "82.6K"
+      },
+      "githubStars": 83176,
+      "catalogUrls": [
+        "https://www.skills.sh/pbakaus/impeccable/polish",
+        "https://www.skills.sh/pbakaus/impeccable/critique"
+      ],
+      "currentSourceUrls": [
+        "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/reference/polish.md",
+        "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/reference/critique.md"
+      ],
+      "notes": "Catálogo ainda apresenta skills separadas. O GitHub atual organiza polish e critique como referências/comandos dentro de impeccable; caminhos antigos source/skills/*/SKILL.md retornam 404. polish foi lida por completo; critique foi consultada, mas saída longa ficou parcial. Não representar a pesquisa como execução dessas rotinas."
+    }
+  ],
+  "implementationChecklist": [
+    "Uma ação principal por tela: iniciar, registrar ou avançar.",
+    "Ajuda e vídeo junto ao exercício atual, com abertura sob demanda.",
+    "Preferências de 3, 4 ou 5 dias com seleção de dias da semana.",
+    "Hoje, amanhã e semana distinguíveis sem precisar memorizar a sequência.",
+    "Retomar progresso após recarregar; comunicar falha de armazenamento se ocorrer.",
+    "Alvos de toque confortáveis, estados selecionados visíveis e controles acessíveis.",
+    "Validar celular estreito, orientação e conteúdo longo."
+  ],
+  "scopeNotes": [
+    "Nenhuma skill foi instalada globalmente.",
+    "Nenhum arquivo da aplicação foi alterado.",
+    "O relatório não afirma um ranking universal das melhores skills; seleciona as mais pertinentes entre candidatas populares verificadas."
+  ]
+}

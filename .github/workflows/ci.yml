@@ -1,0 +1,33 @@
+name: Testes e container
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm audit --omit=dev
+      - run: docker build --pull -t ritmo:ci .
+      - name: Verificar container
+        run: |
+          trap 'docker rm -f ritmo-check >/dev/null 2>&1 || true' EXIT
+          docker run -d --name ritmo-check --read-only --tmpfs /tmp:rw,noexec,nosuid,size=16m --cap-drop ALL --security-opt no-new-privileges -p 127.0.0.1:8080:8080 ritmo:ci
+          for attempt in $(seq 1 30); do
+            if [ "$(docker inspect -f '{{.State.Health.Status}}' ritmo-check)" = healthy ]; then break; fi
+            sleep 2
+          done
+          test "$(docker inspect -f '{{.State.Health.Status}}' ritmo-check)" = healthy
+          test "$(docker exec ritmo-check id -u)" = 101
+          curl --fail http://127.0.0.1:8080/health
+          curl --fail http://127.0.0.1:8080/data/program.json >/dev/null
+          curl --fail http://127.0.0.1:8080/ | grep -q 'Ritmo'

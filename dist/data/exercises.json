@@ -1,0 +1,302 @@
+{
+  "hip-thrust": {
+    "id": "hip-thrust",
+    "name": "Hip thrust com barra",
+    "cue": "Apoie a parte alta das costas em um banco firme e a barra acolchoada sobre o quadril. Mantenha os pés estáveis e suba o quadril sem arquear a lombar. Peça ao instrutor para ajustar a posição inicial.",
+    "equipment": "Halteres / peso do corpo",
+    "media": {
+      "exerciseId": "hip-thrust",
+      "youtubeId": "6IZGqru-xA8",
+      "title": "Nunca faça isso na elevação pélvica, assim você não ativa ao máximo seu glúteo. #dicasdetreino",
+      "channel": "Tay Training",
+      "url": "https://www.youtube.com/watch?v=6IZGqru-xA8",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/6IZGqru-xA8",
+      "language": "pt-BR",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. A miniatura ilustra um vídeo de correção de erros: não deve ser usada isoladamente como postura correta.",
+      "matchNotes": "Demonstração com barra. Assista ao vídeo completo: a capa mostra uma correção de técnica.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/6IZGqru-xA8/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "squat": {
+    "id": "squat",
+    "name": "Agachamento goblet",
+    "cue": "Use a amplitude que consegue controlar, sem dor e com os pés estáveis. Aprenda a regulagem com o instrutor.",
+    "equipment": "Halteres / peso do corpo",
+    "media": {
+      "exerciseId": "squat",
+      "youtubeId": "G3a4h5mDcp4",
+      "title": "Dumbbell Goblet Squat Tutorial",
+      "channel": "Samson Physical Therapy",
+      "url": "https://www.youtube.com/watch?v=G3a4h5mDcp4",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/G3a4h5mDcp4",
+      "language": "en",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. ",
+      "matchNotes": "Variação com um halter junto ao peito.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/G3a4h5mDcp4/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "leg-curl": {
+    "id": "leg-curl",
+    "name": "Cadeira flexora",
+    "cue": "Mantenha a pelve apoiada e evite acelerar para completar as repetições.",
+    "equipment": "Máquina / academia",
+    "media": {
+      "exerciseId": "leg-curl",
+      "youtubeId": "AFG0wxXmTH4",
+      "title": "CADEIRA FLEXORA | Aprenda a técnica para desenvolver POSTERIOR de coxa",
+      "channel": "Tay Training",
+      "url": "https://www.youtube.com/watch?v=AFG0wxXmTH4",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/AFG0wxXmTH4",
+      "language": "pt-BR",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. ",
+      "matchNotes": "Variação sentada na cadeira flexora.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/AFG0wxXmTH4/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "abduction": {
+    "id": "abduction",
+    "name": "Cadeira abdutora",
+    "cue": "Abra os joelhos sem impulso do tronco. Complemento para abdutores, não substitui extensão do quadril.",
+    "equipment": "Máquina / academia",
+    "media": {
+      "exerciseId": "abduction",
+      "youtubeId": "-Bk1QtA9r4c",
+      "title": "Nunca faça isso na CADEIRA ABDUTORA",
+      "channel": "Tay Training",
+      "url": "https://www.youtube.com/watch?v=-Bk1QtA9r4c",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/-Bk1QtA9r4c",
+      "language": "pt-BR",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. A miniatura ilustra um erro com tronco projetado à frente: não deve ser usada isoladamente como postura correta.",
+      "matchNotes": "Assista à correção no vídeo. A capa, sozinha, não mostra a postura a copiar.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/-Bk1QtA9r4c/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "calf": {
+    "id": "calf",
+    "name": "Panturrilha em pé",
+    "cue": "Amplitude confortável, sem saltos ou impulso.",
+    "equipment": "Halteres / peso do corpo",
+    "media": {
+      "exerciseId": "calf",
+      "youtubeId": "-M4-G8p8fmc",
+      "title": "How to Do a Calf Raise | Sexy Legs Workout",
+      "channel": "Howcast",
+      "url": "https://www.youtube.com/watch?v=-M4-G8p8fmc",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/-M4-G8p8fmc",
+      "language": "en",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. ",
+      "matchNotes": "Variação em pé com halteres. Comece sem carga se necessário.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/-M4-G8p8fmc/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "pulldown": {
+    "id": "pulldown",
+    "name": "Puxada frontal",
+    "cue": "Puxe em direção à parte alta do peito, sem jogar o tronco para trás.",
+    "equipment": "Máquina / academia",
+    "media": {
+      "exerciseId": "pulldown",
+      "youtubeId": "6MLs17iyK9I",
+      "title": "How To Do Lat Pulldowns (LAT PULLDOWN MACHINE TUTORIAL)",
+      "channel": "Athlean-XX for Women",
+      "url": "https://www.youtube.com/watch?v=6MLs17iyK9I",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/6MLs17iyK9I",
+      "language": "en",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. Usar somente a primeira variação se a ficha prescrever puxada frontal bilateral.",
+      "matchNotes": "Use a primeira variação: puxada frontal bilateral. As demais não fazem parte desta ficha.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/6MLs17iyK9I/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "chest-press": {
+    "id": "chest-press",
+    "name": "Supino na máquina",
+    "cue": "Ajuste o banco; mantenha ombros confortáveis e não force amplitude dolorosa.",
+    "equipment": "Máquina / academia",
+    "media": {
+      "exerciseId": "chest-press",
+      "youtubeId": "OXguTbCyMAw",
+      "title": "How to do a Seated Machine Chest Press for Women",
+      "channel": "FITBODY with Julie Lohre",
+      "url": "https://www.youtube.com/watch?v=OXguTbCyMAw",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/OXguTbCyMAw",
+      "language": "en",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. ",
+      "matchNotes": "Variação sentada na máquina.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/OXguTbCyMAw/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "row": {
+    "id": "row",
+    "name": "Remada sentada no cabo",
+    "cue": "Tronco estável; conduza os cotovelos para trás sem usar a lombar para embalar.",
+    "equipment": "Máquina / academia",
+    "media": {
+      "exerciseId": "row",
+      "youtubeId": "uZ0r6iYcLwo",
+      "title": "Seated Cable Row",
+      "channel": "Women's Strength Nation by Holly Perkins",
+      "url": "https://www.youtube.com/watch?v=uZ0r6iYcLwo",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/uZ0r6iYcLwo",
+      "language": "en",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. ",
+      "matchNotes": "Variação sentada no cabo, com pegada neutra.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/uZ0r6iYcLwo/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "lateral-raise": {
+    "id": "lateral-raise",
+    "name": "Elevação lateral sentada",
+    "cue": "Carga leve e controlável; não encolha os ombros para erguer os halteres.",
+    "equipment": "Halteres / peso do corpo",
+    "media": {
+      "exerciseId": "lateral-raise",
+      "youtubeId": "X7_ulxuJnVU",
+      "title": "Como ter o OMBRO FEMININO e DEFINIDO com a ELEVAÇÃO LATERAL.",
+      "channel": "Tay Training",
+      "url": "https://www.youtube.com/watch?v=X7_ulxuJnVU",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/X7_ulxuJnVU",
+      "language": "pt-BR",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. A miniatura pertence a vídeo de erros e técnica; não deve ser usada isoladamente como postura correta.",
+      "matchNotes": "Variação sentada com halteres. Assista à explicação dos erros antes de executar.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/X7_ulxuJnVU/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "triceps": {
+    "id": "triceps",
+    "name": "Tríceps na polia com barra",
+    "cue": "Cotovelos próximos ao corpo; movimento controlado.",
+    "equipment": "Máquina / academia",
+    "media": {
+      "exerciseId": "triceps",
+      "youtubeId": "zEHmnpgi-dg",
+      "title": "Straight Bar Cable Pressdown",
+      "channel": "Women's Strength Nation by Holly Perkins",
+      "url": "https://www.youtube.com/watch?v=zEHmnpgi-dg",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/zEHmnpgi-dg",
+      "language": "en",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. ",
+      "matchNotes": "Variação na polia alta com barra reta.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/zEHmnpgi-dg/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "curl": {
+    "id": "curl",
+    "name": "Rosca com halteres",
+    "cue": "Evite balanço do corpo. Braços já recebem estímulo em puxadas e remadas.",
+    "equipment": "Halteres / peso do corpo",
+    "media": {
+      "exerciseId": "curl",
+      "youtubeId": "sJqVk1EiIyQ",
+      "title": "Dumbbell Bicep Curl - Female",
+      "channel": "Michael Z",
+      "url": "https://www.youtube.com/watch?v=sJqVk1EiIyQ",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/sJqVk1EiIyQ",
+      "language": "en",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. Canal informa que o clipe foi feito para aplicativo de iPhone; não informa credenciais profissionais. Usar como referência visual, não prescrição.",
+      "matchNotes": "Demonstração em pé com halteres. Confira a técnica com o instrutor.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/sJqVk1EiIyQ/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "dead-bug": {
+    "id": "dead-bug",
+    "name": "Dead bug",
+    "cue": "Estenda braço e perna opostos dentro do controle do tronco, respirando normalmente.",
+    "equipment": "Halteres / peso do corpo",
+    "media": {
+      "exerciseId": "dead-bug",
+      "youtubeId": "kwWZBbkXtg4",
+      "title": "How to Do the Dead Bug Exercise | Abs Workout",
+      "channel": "Howcast",
+      "url": "https://www.youtube.com/watch?v=kwWZBbkXtg4",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/kwWZBbkXtg4",
+      "language": "en",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. A amplitude deve ser adaptada ao controle da lombar; não copiar obrigatoriamente a amplitude da demonstradora.",
+      "matchNotes": "Reduza a amplitude se perder o controle do tronco.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/kwWZBbkXtg4/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "rdl": {
+    "id": "rdl",
+    "name": "Romeno com halteres",
+    "cue": "Leve o quadril para trás, joelhos levemente flexionados; halteres próximos ao corpo. Não precisa tocar o chão.",
+    "equipment": "Halteres / peso do corpo",
+    "media": {
+      "exerciseId": "rdl",
+      "youtubeId": "08StUopZee8",
+      "title": "Dumbbell Romanian Deadlift",
+      "channel": "Women's Strength Nation by Holly Perkins",
+      "url": "https://www.youtube.com/watch?v=08StUopZee8",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/08StUopZee8",
+      "language": "en",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. ",
+      "matchNotes": "Variação bilateral com halteres.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/08StUopZee8/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "split-squat": {
+    "id": "split-squat",
+    "name": "Afundo estático com apoio",
+    "cue": "Segure em apoio estável. Comece sem carga; desça na amplitude confortável, sem perder equilíbrio.",
+    "equipment": "Halteres / peso do corpo",
+    "media": {
+      "exerciseId": "split-squat",
+      "youtubeId": "vUikQQsXCbg",
+      "title": "How to do a Split Squat Supported",
+      "channel": "Rehab My Patient",
+      "url": "https://www.youtube.com/watch?v=vUikQQsXCbg",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/vUikQQsXCbg",
+      "language": "en",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. ",
+      "matchNotes": "Os dois pés ficam no chão; a mão usa um apoio firme.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/vUikQQsXCbg/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  },
+  "plank": {
+    "id": "plank",
+    "name": "Prancha com joelhos apoiados",
+    "cue": "Apoie mãos e joelhos, com braços estendidos. Mantenha o tronco firme, sem deixar a lombar ceder. Respire e encerre antes de perder a posição.",
+    "equipment": "Halteres / peso do corpo",
+    "media": {
+      "exerciseId": "plank",
+      "youtubeId": "IsBeCwpSDgA",
+      "title": "Prancha  com apoio de joelhos",
+      "channel": "Prof Leonardo Nascimento",
+      "url": "https://www.youtube.com/watch?v=IsBeCwpSDgA",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/IsBeCwpSDgA",
+      "language": "pt-BR",
+      "verifiedAt": "2026-10-19",
+      "verificationNotes": "URL encontrada em busca web; título e canal conferidos por metadados oEmbed do YouTube. Miniatura oficial inspecionada visualmente e mostra mulher demonstrando o movimento/equipamento. Vídeo completo não assistido; reprodução e restrições de incorporação não testadas. ",
+      "matchNotes": "Mãos e joelhos apoiados, braços estendidos.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/IsBeCwpSDgA/hqdefault.jpg",
+      "oembedAvailable": true
+    }
+  }
+}

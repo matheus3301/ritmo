@@ -1,0 +1,19 @@
+{
+  "name": "ritmo-treino",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "start": "node scripts/dev.mjs"
+  },
+  "description": "Treino ABC no celular: agenda de 3, 4 ou 5 dias, vídeos e registros locais, sem backend.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matheus3301/ritmo.git"
+  }
+}
