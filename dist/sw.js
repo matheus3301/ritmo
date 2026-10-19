@@ -1,8 +1,9 @@
-const CACHE = "ritmo-static-v9";
+const RELEASE = "1.1.2";
+const CACHE = `ritmo-static-${RELEASE}`;
 const FILES = [
   "./",
   "./index.html",
-  "./app.js?v=1.1.1",
+  "./app.js",
   "./core.js",
   "./style.css",
   "./data/profiles.json",
@@ -16,7 +17,7 @@ const FILES = [
   "./assets/body-bold.ttf",
   "./assets/icon.svg",
   "./manifest.webmanifest",
-];
+].map(path => /\.(js|css|json)$/.test(path) ? `${path}?v=${RELEASE}` : path);
 const urls = new Set(
   FILES.map((path) => new URL(path, self.location.href).href),
 );

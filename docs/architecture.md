@@ -57,7 +57,7 @@ Os registros usam `data:sessão` dentro do perfil. Guardam um snapshot de exerc�
 
 ## Cache e versões
 
-O service worker mantém o aplicativo e todos os perfis no cache da própria aplicação. Ao adicionar arquivos, atualize `FILES` em `sw.js` e incremente a versão do cache. O teste confere a presença de todos os perfis. A nova versão assume quando todas as abas antigas forem fechadas, evitando substituir uma sessão aberta de treino.
+O service worker mantém o aplicativo e todos os perfis no cache da própria aplicação. Ao adicionar arquivos, atualize `FILES` em `sw.js`. Cada publicação de `dist/` deve usar uma nova versão comum em `package.json`, `RELEASE` de `app.js` e `sw.js`, na importação de `core.js` e nos URLs de scripts/estilos do HTML. O aplicativo acrescenta essa versão aos JSONs. Assim, um service worker antigo não entrega código ou conteúdo de outra versão. A instalação do cache revalida os arquivos na rede. O teste confere a presença de todos os perfis. A nova versão assume quando todas as abas antigas forem fechadas, evitando substituir uma sessão aberta de treino.
 
 O tema é aplicado antes da primeira pintura por `theme-init.js`; o aplicativo acompanha mudanças na preferência do aparelho quando o modo automático está selecionado.
 

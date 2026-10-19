@@ -44,6 +44,6 @@ Espere `healthy` antes de considerar a implantação pronta. Verifique também a
 
 Mantenha a imagem base fixada por versão e digest; atualize ambos após revisar vulnerabilidades e testar novamente. O projeto não instala pacotes npm no container.
 
-Antes de cada publicação que altere `dist/`, incremente `CACHE` em `sw.js`. A atualização offline entra em vigor quando as abas antigas são fechadas e o aplicativo é reaberto. O nginx solicita revalidação HTTP dos arquivos para evitar misturar releases no cache da rede.
+Antes de cada publicação que altere `dist/`, atualize a versão dos arquivos conforme o contrato em `architecture.md`. A atualização offline entra em vigor quando as abas antigas são fechadas e o aplicativo é reaberto. O nginx solicita revalidação HTTP dos arquivos para evitar misturar releases no cache da rede.
 
 Habilite auto deploy no Coolify se quiser publicar a cada push. Como o webhook pode iniciar antes do CI terminar, exija CI aprovado antes de mesclar em `main`. Para reverter, publique o commit anterior pelo Coolify ou reverta o commit no GitHub. Não limpe dados locais dos usuários. Mudanças no formato do backup exigem migração compatível.

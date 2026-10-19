@@ -177,9 +177,15 @@ test("offline manifest includes every profile and theme startup asset", () => {
   assert.ok(sw.includes('"./theme-init.js"'));
 });
 
-test('HTML entry point is versioned and included in the offline cache',()=>{
- const html=readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
- const sw=readFileSync(new URL('../dist/sw.js',import.meta.url),'utf8');
- const entry=html.match(/<script type="module" src="([^"]+)"/)[1];
- assert.match(entry,/\?v=/);assert.ok(sw.includes('"'+entry+'"'));
+test("HTML, module imports, JSON requests and offline cache share one release", () => {
+ const release = read("../package.json").version;
+ const html = readFileSync(new URL("../dist/index.html", import.meta.url), "utf8");
+ const app = readFileSync(new URL("../dist/app.js", import.meta.url), "utf8");
+ const sw = readFileSync(new URL("../dist/sw.js", import.meta.url), "utf8");
+ const entry = html.match(/<script type="module" src="([^"]+)"/)[1];
+ assert.equal(new URL(entry,"https://ritmo.example/").searchParams.get("v"), release);
+ for (const name of ["style.css", "theme-init.js"]) assert.ok(html.includes(name + "?v=" + release));
+ assert.ok(app.includes('./core.js?v=' + release));
+ for (const source of [app,sw]) assert.ok(source.includes('const RELEASE = "' + release + '"'));
+ assert.ok(sw.includes('"./app.js"'));
 });

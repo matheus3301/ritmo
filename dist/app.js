@@ -14,7 +14,8 @@ import {
   scheduleFor,
   workoutKey,
   progressFor,
-} from "./core.js";
+} from "./core.js?v=1.1.2";
+const RELEASE = "1.1.2";
 const $ = (s) => document.querySelector(s);
 const escape = (s) =>
   String(s ?? "").replace(
@@ -718,7 +719,7 @@ if ("serviceWorker" in navigator)
   navigator.serviceWorker.register("./sw.js").catch(() => {});
 try {
   const loadJson = async (path) => {
-    const r = await fetch(path);
+    const r = await fetch(`${path}?v=${RELEASE}`);
     if (!r.ok) throw new Error("Conteúdo indisponível");
     return r.json();
   };

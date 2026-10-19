@@ -24,3 +24,5 @@ Revisão visual desta versão: primeiro acesso, seleção e troca de perfil em A
 Offline desta versão: servidor local de localhost:43187 encerrado, página recarregada com sucesso, configurações da ficha masculina restauradas e troca para a ficha feminina concluída sem servidor. O teste cobre os arquivos próprios; vídeos externos continuam dependendo de conexão.
 
 Publicação preparada: npm audit sem vulnerabilidades; imagem local de aproximadamente 67,7 MiB, execução com UID 101, somente leitura e health check aprovado. Trivy 0.76.0 sem achados HIGH/CRITICAL no conjunto de pacotes usado nesta versão. A mudança posterior de CSS/formatação não altera esses pacotes.
+
+Verificação adicional de atualização: 18 testes aprovados, incluindo revalidação dos arquivos na instalação do cache e versão coerente entre HTML, módulos e cache. A revisão em produção identificou mistura de core.js antigo com o novo app; a versão 1.1.2 usa URLs de release também nos módulos, estilos e JSONs, sem apagar o armazenamento local.
