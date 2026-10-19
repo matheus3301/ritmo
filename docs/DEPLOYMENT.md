@@ -33,7 +33,7 @@ docker run -d --name ritmo-check \
   --cap-drop ALL --security-opt no-new-privileges \
   -p 127.0.0.1:8080:8080 ritmo:local
 curl --fail http://127.0.0.1:8080/health
-curl --fail http://127.0.0.1:8080/data/program.json
+curl --fail http://127.0.0.1:8080/data/profiles.json
 docker inspect ritmo-check --format '{{.State.Health.Status}}'
 docker rm -f ritmo-check
 ```

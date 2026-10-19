@@ -1,112 +1,77 @@
-<div align="center">
-  <img src="dist/assets/icon.svg" width="80" alt="Ritmo">
-  <h1>Ritmo</h1>
-  <p><strong>Seu treino, no seu tempo.</strong></p>
-  <p>Treino ABC no celular. Escolha seus dias, veja a execução e acompanhe cada série.</p>
-  <p>
-    <a href="LICENSE"><img alt="Licença MIT" src="https://img.shields.io/badge/licen%C3%A7a-MIT-5B4CCE"></a>
-    <a href="https://github.com/matheus3301/ritmo/actions/workflows/ci.yml"><img alt="Testes" src="https://github.com/matheus3301/ritmo/actions/workflows/ci.yml/badge.svg"></a>
-    <img alt="Sem backend" src="https://img.shields.io/badge/backend-nenhum-24213A">
-  </p>
-</div>
+# Ritmo
 
-**[Abrir o Ritmo →](https://ritmo.mmonteiro.dev)**
+**Fichas de treino em JSON. Pesquisa aberta. Um aplicativo para levar à academia.**
 
-O Ritmo organiza um plano educativo de academia para uma mulher adulta iniciante, com foco em fortalecimento, hipertrofia de glúteos e apoio ao emagrecimento. A interface foi pensada para consultar entre as séries: treino do dia, próximo exercício e demonstração no mesmo lugar.
+[Abrir o Ritmo](https://ritmo.mmonteiro.dev) · [Fichas geradas](docs/fichas) · [Pesquisa masculina](docs/pesquisa-masculina.md) · [Fontes](dist/data/sources.json)
 
-**HTML, CSS e JavaScript nativos. Sem cadastro, banco de dados ou dependências de execução no navegador.** Preferências e registros ficam no aparelho.
+O Ritmo transforma perfis de treino em uma agenda para o celular. Você escolhe a ficha, quantos dias vai à academia e quando começa. O aplicativo mostra o treino de hoje, o de amanhã, as demonstrações e as séries que faltam.
 
-<p align="center"><img src="docs/preview-mobile.png" width="320" alt="Ritmo no celular: calendário semanal, treino A e lista de exercícios"></p>
+O conteúdo é a base do projeto: exercícios, prescrição, calendários, adaptação, orientações e referências ficam em JSONs legíveis e reutilizáveis. A mesma fonte alimenta a interface e gera as fichas de consulta.
 
-## O que você pode fazer
+## Escolha pelo seu objetivo
 
-- Escolher **3, 4 ou 5 dias por semana**, os dias disponíveis e a data de início.
-- Ver o treino de hoje, o de amanhã e a agenda semanal.
-- Consultar séries, repetições, descanso e instruções de 15 exercícios.
-- Abrir vídeos de mulheres demonstrando a variante indicada, com canal e link de origem.
-- Marcar séries, anotar carga/repetições e usar o cronômetro de descanso.
-- Consultar o histórico, exportar um backup JSON e restaurá-lo em outro aparelho.
-- Adicionar à tela inicial e acessar a ficha offline após o primeiro carregamento completo.
+| Ficha | Foco | 3 dias | 4 dias | 5 dias |
+| --- | --- | --- | --- | --- |
+| [Feminina](dist/data/profiles/feminino.json) | Glúteos e composição corporal | A / B / C | A / B / C / B | A / B / cardio / C / B |
+| [Masculina](dist/data/profiles/masculino.json) | Hipertrofia geral e proporção | A / B / C | A / B / A / B | A / B / cardio / A / B |
 
-## Como o plano funciona
+As letras pertencem a cada ficha. Na masculina, A é superiores, B é inferiores e C é corpo inteiro. Na feminina, A e C priorizam inferiores e B trabalha superiores e tronco.
 
-| Frequência | Organização da semana |
-| --- | --- |
-| 3 dias | A · B · C, com complemento de superiores em C |
-| 4 dias | A · B · C · B |
-| 5 dias | A · B · cardio · C · B |
+Ambas partem de uma pessoa adulta iniciante, com duas semanas de adaptação e uma base para reavaliar após 12 semanas. Os nomes indicam o foco das fichas; a escolha pode ser feita pelo objetivo. A divisão exata é uma aplicação prática das evidências, não um protocolo validado como conjunto ou uma prescrição individual.
 
-**A:** glúteos e quadríceps. **B:** superiores e tronco. **C:** glúteos e posteriores. O aplicativo valida um dia de intervalo entre A e C, inclusive na virada da semana. As duas primeiras semanas reduzem o volume para adaptação. O quinto dia acrescenta cardio, sem multiplicar as sessões pesadas de pernas.
+## No celular
 
-A pesquisa usa nove fontes, disponíveis em [sources.json](dist/data/sources.json). O plano não garante perda de peso ou ganho muscular e não substitui avaliação individual. Dor, lesão, gestação ou condições clínicas exigem adaptação profissional. Confira ajustes e execução com o instrutor da academia.
+- Escolha a ficha no primeiro acesso e altere ficha ou dias em Ajustes.
+- Veja hoje, amanhã e as próximas semanas, com recuperação entre os grupos programados.
+- Abra demonstrações do exercício e consulte orientações de execução.
+- Registre cargas, repetições e séries; acompanhe o histórico de cada perfil separadamente.
+- Use os temas claro, escuro ou automático.
+- Exporte e importe uma cópia dos perfis, agendas, registros e tema.
 
-## Rodar localmente
+Não há conta. Os dados ficam no navegador do aparelho, sem sincronização. Limpar os dados do site remove os registros; exporte uma cópia para guardá-los. Após o primeiro carregamento completo, as fichas podem abrir sem conexão. Vídeos e miniaturas precisam de internet e são servidos pelo YouTube.
 
-Requer **Node.js 22 ou superior**.
+<p align="center">
+  <img src="docs/preview-mobile.png" alt="Ritmo no celular: ficha e exercícios do dia" width="300" />
+  <img src="docs/preview-dark.png" alt="Ritmo em modo escuro com a ficha masculina" width="300" />
+</p>
 
-```sh
-git clone https://github.com/matheus3301/ritmo.git
-cd ritmo
-npm ci
-npm start
-```
+## Pesquisa que pode ser conferida
 
-Abra **http://127.0.0.1:43187**. Não há compilação: `dist/` contém o site completo. O servidor de desenvolvimento escuta apenas na interface local. Para outra porta, use `PORT=43188 npm start`.
+A seleção reúne diretrizes oficiais e estudos de síntese sobre hipertrofia, volume, frequência, recuperação e composição corporal. Cada referência registra o que foi consultado e suas limitações.
 
-```sh
-npm test
-npm audit --omit=dev
-```
+- [Fontes e notas de acesso](dist/data/sources.json).
+- [Pesquisa masculina estruturada](research/masculino.json) e [relatório de decisões](docs/pesquisa-masculina.md).
+- [Ficha feminina gerada](docs/fichas/feminino.md) e [ficha masculina gerada](docs/fichas/masculino.md), com séries, pausas, agendas e volume semanal.
+- [Catálogo de exercícios e demonstrações](dist/data/exercises.json), com atribuição e correspondência entre vídeo e variante prescrita.
 
-## Rodar com Docker
+Mais dias não significam automaticamente mais musculação. Na opção de cinco dias, o dia adicional é aeróbico. Progressão depende de técnica e recuperação; não há promessa de ganho muscular ou perda de gordura em um prazo fixo. Revise a ficha com o profissional da academia.
 
-```sh
-docker build --pull -t ritmo:local .
-docker run --rm --name ritmo -p 8080:8080 ritmo:local
-```
-
-Abra **http://localhost:8080**. O container usa nginx Alpine, executa como UID/GID `101:101` e oferece `GET /health`. A imagem base está fixada por digest. A hospedagem de produção precisa de HTTPS para o service worker.
-
-Veja [como configurar o Coolify](docs/DEPLOYMENT.md), incluindo porta, verificação de saúde, atualizações e rollback. Nenhum segredo ou volume persistente é necessário para esta aplicação.
-
-## Dados e privacidade
-
-A chave `ritmo:v1` no `localStorage` guarda rotina e histórico. O aplicativo não envia esses registros para um servidor e não inclui analytics. O provedor da hospedagem ainda recebe as requisições normais de acesso.
-
-Cada navegador e endereço de hospedagem mantém seus próprios dados. Limpar os dados do site, usar navegação privada ou trocar de celular pode apagar ou tornar o histórico inacessível. Use **Ajustes → Exportar cópia** antes de mudar de aparelho ou de endereço.
-
-Os vídeos e as miniaturas são carregados do YouTube. O player só abre ao tocar na demonstração e usa `youtube-nocookie.com`; isso não elimina a comunicação com o serviço. Vídeos exigem internet e podem ficar indisponíveis por decisão do canal. Há **5 demonstrações em português e 10 em inglês**, com orientações escritas em português.
-
-## Estrutura
+## JSON como fonte do treino
 
 ```text
-dist/
-  index.html, style.css, app.js   interface e interações
-  core.js                       agenda e validações
-  sw.js, manifest.webmanifest    cache e instalação
-  assets/                       ícone, fontes e licenças
-  data/
-    program.json                fichas e calendários
-    exercises.json              execução e vídeos
-    guidance.json               orientações e privacidade
-    sources.json                referências científicas
-research/                       pesquisa de mídias, skills e verificação
-tests/                          testes de agenda, backup e cache
-scripts/dev.mjs                 servidor local
-docs/                           arquitetura e deploy
-Dockerfile, nginx.conf          servidor estático de produção
+dist/data/
+  profiles.json             catálogo de perfis
+  profiles/feminino.json     ficha, agenda, regras e orientações
+  profiles/masculino.json    ficha, agenda, regras e orientações
+  exercises.json            execução, medidas, grupos e vídeos
+  sources.json              referências da pesquisa
+research/
+  masculino.json            evidência, decisão e limites
+docs/fichas/                fichas geradas dos perfis
 ```
 
-Para editar o conteúdo, altere os JSONs. Ao trocar um exercício, confira se o vídeo mostra **a mesma variante**. Ao modificar qualquer arquivo de `dist/`, incremente `CACHE` em `sw.js` para renovar o conteúdo offline. Leia a [arquitetura](docs/architecture.md) antes de mudar o formato do backup.
+O renderizador não escolhe exercícios pelo nome do perfil. Ele lê as sessões, sequências, complementos e grupos de recuperação declarados no JSON. Novos perfis usam o mesmo motor. Veja o [contrato dos dados](docs/architecture.md) e o [guia de contribuição](CONTRIBUTING.md).
 
-## Qualidade e contribuições
+## Rodar e contribuir
 
-Os testes verificam datas, calendários, recuperação entre treinos, volume de adaptação, integridade dos dados, importação e isolamento do cache. A revisão manual incluiu telas de 320, 390 e 1440 pixels, registros após recarga, exportação/importação, cronômetro e abertura de um player. Não houve teste em aparelho físico nem reprodução integral de todos os vídeos. Consulte [o registro de verificação](research/verification.txt).
+Requer Node.js 22 ou superior. Não há dependências de aplicação.
 
-Correções de acessibilidade, compatibilidade e conteúdo com fontes são bem-vindas. Veja [CONTRIBUTING.md](CONTRIBUTING.md).
+```sh
+npm start
+npm test
+npm run sheets
+```
 
-## Créditos e licença
+Abra `http://127.0.0.1:43187`. O último comando regenera as fichas e o relatório da pesquisa a partir dos JSONs. Para publicar alterações de conteúdo, revise também as demonstrações, referências e testes.
 
-Código e textos originais sob a [licença MIT](LICENSE). Fontes **Bricolage Grotesque** e **Manrope** sob SIL Open Font License, com avisos preservados em `dist/assets/`. Vídeos, miniaturas e artigos pertencem aos seus autores e não são relicenciados por este projeto.
-
-A escrita foi orientada pela skill [beautiful-prose](https://github.com/matheus3301/skills/tree/HEAD/beautiful-prose). A pesquisa de design considerou [frontend-design](https://www.skills.sh/anthropics/skills/frontend-design), [web-design-guidelines](https://www.skills.sh/vercel-labs/agent-skills/web-design-guidelines) e [Impeccable](https://www.skills.sh/pbakaus/impeccable/impeccable). Fontes e critérios estão em [research/skills.json](research/skills.json).
+Código e textos originais sob [licença MIT](LICENSE). As publicações citadas, fontes tipográficas e vídeos mantêm suas próprias licenças. As demonstrações são incorporadas ou vinculadas, sem redistribuição dos arquivos de vídeo.

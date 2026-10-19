@@ -1,4 +1,5 @@
-export const STORE_KEY = "ritmo:v1";
+export const STORE_KEY = "ritmo:v2";
+export const LEGACY_STORE_KEY = "ritmo:v1";
 export const dayNames = [
   "domingo",
   "segunda-feira",
@@ -34,7 +35,8 @@ export function orderedDays(days) {
   return [...days].sort((a, b) => ((a + 6) % 7) - ((b + 6) % 7));
 }
 export function validatePreferences(p, program) {
-  if (!p || ![3, 4, 5].includes(p.frequency)) return "Escolha 3, 4 ou 5 dias.";
+  if (!p || !Object.hasOwn(program.sequences, p.frequency))
+    return "Escolha uma frequência disponível nesta ficha.";
   if (
     !Array.isArray(p.days) ||
     p.days.length !== p.frequency ||
@@ -49,17 +51,23 @@ export function validatePreferences(p, program) {
   )
     return "Escolha uma data de início válida.";
   const days = orderedDays(p.days),
-    seq = program.sequences[p.frequency],
-    a = days[seq.indexOf("A")],
-    c = days[seq.indexOf("C")],
-    gap = (c - a + 7) % 7;
-  if (gap < 2 || gap > 5)
-    return "Deixe pelo menos um dia entre A e C, inclusive na virada da semana. Escolha outros dias.";
+    seq = program.sequences[p.frequency];
+  for (const group of program.recoveryGroups) {
+    const positions = days.filter((day, i) =>
+      program.workouts[seq[i]]?.recoveryGroups.includes(group),
+    );
+    if (positions.length < 2) continue;
+    for (let i = 0; i < positions.length; i++) {
+      const gap =
+        (positions[(i + 1) % positions.length] - positions[i] + 7) % 7;
+      if (gap < 2) return program.recoveryNote + " Escolha outros dias.";
+    }
+  }
   return "";
 }
 export function scheduleFor(date, p, program) {
   const week = weekNumber(date, p.startDate),
-    adaptation = week <= 2;
+    adaptation = week <= program.adaptationWeeks;
   if (date < p.startDate)
     return {
       id: "rest",
@@ -84,14 +92,15 @@ export function scheduleFor(date, p, program) {
       sets: adaptation ? program.adaptationSets[id][e.exerciseId] : e.sets,
     }))
     .filter((e) => e.sets > 0);
-  if (id === "C" && p.frequency === 3)
-    exercises.push(
-      ...program.extraUpper.map((e) => ({
+  exercises.push(
+    ...(program.supplements[p.frequency]?.[id] || [])
+      .map((e) => ({
         ...e,
-        sets: adaptation ? 1 : e.sets,
+        sets: adaptation ? e.adaptationSets : e.sets,
         extra: true,
-      })),
-    );
+      }))
+      .filter((e) => e.sets > 0),
+  );
   return { ...program.workouts[id], week, adaptation, exercises };
 }
 export function workoutKey(date, id) {
@@ -124,14 +133,22 @@ export function validateBackup(value, program) {
   )
     throw new Error("O histórico do arquivo é inválido.");
   const known = new Set(
-    Object.values(program.workouts).flatMap((w) =>
-      w.exercises.map((e) => e.exerciseId),
-    ),
+    [
+      ...Object.values(program.workouts).flatMap((w) => w.exercises),
+      ...Object.values(program.supplements).flatMap((byWorkout) =>
+        Object.values(byWorkout).flat(),
+      ),
+    ].map((e) => e.exerciseId),
   );
   const logs = {};
   for (const [key, log] of Object.entries(value.logs)) {
     if (
-      !/^\d{4}-\d{2}-\d{2}:(A|B|C|cardio)$/.test(key) ||
+      !/^\d{4}-\d{2}-\d{2}:[A-Za-z0-9-]+$/.test(key) ||
+      isoDate(parseDate(key.split(":")[0])) !== key.split(":")[0] ||
+      !(
+        key.split(":")[1] === "cardio" ||
+        Object.hasOwn(program.workouts, key.split(":")[1])
+      ) ||
       !log ||
       typeof log !== "object"
     )
@@ -146,9 +163,9 @@ export function validateBackup(value, program) {
         throw new Error("Há exercícios inválidos no arquivo.");
       out.exercises[id] = {
         sets: e.sets.map((s) => ({
-          done: s.done === true,
-          weight: String(s.weight ?? "").slice(0, 8),
-          reps: String(s.reps ?? "").slice(0, 8),
+          done: s?.done === true,
+          weight: String(s?.weight ?? "").slice(0, 8),
+          reps: String(s?.reps ?? "").slice(0, 8),
         })),
       };
     }
@@ -179,4 +196,170 @@ export function validateBackup(value, program) {
     },
     logs,
   };
+}
+
+// One saved plan per profile. A and B in different profiles never share logs.
+export function emptyState(defaultProfileId) {
+  return {
+    version: 2,
+    profileId: defaultProfileId,
+    theme: "system",
+    plans: {},
+  };
+}
+export function validateState(value, profiles, defaultProfileId) {
+  if (value?.version === 1) {
+    const migrated = emptyState(defaultProfileId);
+    migrated.plans[defaultProfileId] = validateBackup(
+      value,
+      profiles[defaultProfileId],
+    );
+    return migrated;
+  }
+  if (
+    !value ||
+    value.version !== 2 ||
+    !Object.hasOwn(profiles, value.profileId) ||
+    !["system", "light", "dark"].includes(value.theme) ||
+    !value.plans ||
+    typeof value.plans !== "object" ||
+    Array.isArray(value.plans)
+  ) {
+    throw new Error("Este arquivo não contém perfis Ritmo válidos.");
+  }
+  const clean = emptyState(value.profileId);
+  clean.theme = value.theme;
+  for (const [id, plan] of Object.entries(value.plans)) {
+    if (!Object.hasOwn(profiles, id))
+      throw new Error("A cópia contém um perfil indisponível nesta versão.");
+    clean.plans[id] = validateBackup(plan, profiles[id]);
+  }
+  return clean;
+}
+export function validateProfile(profile, exercises, sources) {
+  const fail = () => {
+    throw new Error(
+      "Ficha JSON inválida: " + (profile?.id || "sem identificação"),
+    );
+  };
+  const safeId = (id) =>
+    typeof id === "string" &&
+    /^[a-z][a-z0-9-]*$/.test(id) &&
+    !["constructor", "prototype", "__proto__"].includes(id);
+  if (
+    !profile ||
+    profile.schemaVersion !== 1 ||
+    !safeId(profile.id) ||
+    !profile.label ||
+    !profile.subtitle ||
+    !profile.audience ||
+    !Number.isInteger(profile.durationWeeks) ||
+    profile.durationWeeks < 1 ||
+    !Number.isInteger(profile.adaptationWeeks) ||
+    profile.adaptationWeeks < 0 ||
+    profile.adaptationWeeks > profile.durationWeeks ||
+    !profile.workouts ||
+    !profile.sequences ||
+    !profile.defaults ||
+    !profile.adaptationSets ||
+    !profile.supplements ||
+    !Array.isArray(profile.recoveryGroups) ||
+    !profile.recoveryNote ||
+    !profile.scheduleHints ||
+    !profile.guidance?.sections?.length ||
+    !profile.cardio?.text ||
+    !profile.cardio.adaptationMinutes ||
+    !profile.cardio.baseMinutes ||
+    !profile.adaptationRir ||
+    !profile.baseRir ||
+    !Array.isArray(profile.sourceIds)
+  )
+    fail();
+  const checkEntry = (e) => {
+    if (
+      !e ||
+      !Object.hasOwn(exercises, e.exerciseId) ||
+      !Number.isInteger(e.sets) ||
+      e.sets < 1 ||
+      e.sets > 5 ||
+      typeof e.reps !== "string" ||
+      !e.restLabel ||
+      !Number.isInteger(e.restSeconds) ||
+      e.restSeconds < 15 ||
+      e.restSeconds > 600
+    )
+      fail();
+  };
+  for (const [id, w] of Object.entries(profile.workouts)) {
+    if (
+      !/^[A-Z][A-Z0-9-]*$/.test(id) ||
+      w.id !== id ||
+      !w.name ||
+      !w.minutes ||
+      !Array.isArray(w.recoveryGroups) ||
+      !Array.isArray(w.exercises) ||
+      !w.exercises.length ||
+      w.exercises.length > 15 ||
+      new Set(w.exercises.map((e) => e.exerciseId)).size !== w.exercises.length
+    )
+      fail();
+    for (const e of w.exercises) {
+      checkEntry(e);
+      const reduced = profile.adaptationSets[id]?.[e.exerciseId];
+      if (!Number.isInteger(reduced) || reduced < 0 || reduced > e.sets) fail();
+    }
+  }
+  for (const [frequency, sequence] of Object.entries(profile.sequences)) {
+    const n = Number(frequency);
+    if (
+      !Number.isInteger(n) ||
+      n < 1 ||
+      n > 7 ||
+      !Array.isArray(sequence) ||
+      sequence.length !== n ||
+      sequence.some(
+        (id) => id !== "cardio" && !Object.hasOwn(profile.workouts, id),
+      ) ||
+      !profile.scheduleHints[frequency] ||
+      validatePreferences(
+        {
+          frequency: n,
+          days: profile.defaults[frequency],
+          startDate: "2026-10-19",
+        },
+        profile,
+      )
+    )
+      fail();
+  }
+  for (const [frequency, extras] of Object.entries(profile.supplements)) {
+    if (!Object.hasOwn(profile.sequences, frequency)) fail();
+    for (const [id, entries] of Object.entries(extras)) {
+      if (!Object.hasOwn(profile.workouts, id) || !Array.isArray(entries))
+        fail();
+      const seen = new Set(
+        profile.workouts[id].exercises.map((e) => e.exerciseId),
+      );
+      for (const e of entries) {
+        checkEntry(e);
+        if (
+          seen.has(e.exerciseId) ||
+          !Number.isInteger(e.adaptationSets) ||
+          e.adaptationSets < 0 ||
+          e.adaptationSets > e.sets
+        )
+          fail();
+        seen.add(e.exerciseId);
+      }
+      if (seen.size > 15) fail();
+    }
+  }
+  if (
+    profile.sourceIds.some((id) => !sources.some((s) => s.id === id)) ||
+    profile.guidance.sections.some(
+      (s) => typeof s.title !== "string" || typeof s.text !== "string",
+    )
+  )
+    fail();
+  return profile;
 }

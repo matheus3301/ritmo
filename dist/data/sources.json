@@ -52,5 +52,35 @@
     "title": "CDC (2024). FastStats: Sleep in Adults.",
     "url": "https://www.cdc.gov/sleep/data-research/facts-stats/adults-sleep-facts-and-stats.html",
     "description": "Página institucional sobre sono, consultada para a recomendação geral de pelo menos 7 horas diárias em adultos."
+  },
+  {
+    "id": "10",
+    "title": "Pelland et al. (2026). The Resistance Training Dose Response.",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/41343037/",
+    "description": "Meta-regressões de 67 estudos, 2.058 participantes (79,1% homens). Mais volume associou-se a mais hipertrofia, com retornos decrescentes. Separou séries diretas e indiretas. Consultado resumo publicado; DOI 10.1007/s40279-025-02344-w."
+  },
+  {
+    "id": "11",
+    "title": "Ramos-Campo et al. (2024). Efficacy of Split Versus Full-Body Resistance Training.",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/38595233/",
+    "description": "Meta-análise de 14 estudos e 392 participantes. Divisões e corpo inteiro tiveram resultados semelhantes quando o volume foi igualado. Consultado resumo; DOI 10.1519/JSC.0000000000004774."
+  },
+  {
+    "id": "12",
+    "title": "Robinson et al. (2024). Proximity to Failure, Strength Gain, and Muscle Hypertrophy.",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/38970765/",
+    "description": "Meta-regressões com estimativas de repetições em reserva. Sustenta considerar proximidade à falha, sem estabelecer uma reserva universal exata. Consultado resumo; DOI 10.1007/s40279-024-02069-2."
+  },
+  {
+    "id": "13",
+    "title": "Singer et al. (2024). Give it a rest: inter-set rest and muscle hypertrophy.",
+    "url": "https://www.frontiersin.org/journals/sports-and-active-living/articles/10.3389/fspor.2024.1429789/full",
+    "description": "Revisão de nove estudos, intervenções de 5-10 semanas. Possível benefício pequeno de pausas maiores que 60 segundos; incerteza e heterogeneidade impedem definir uma duração ideal única. Consultados métodos, resultados e discussão; DOI 10.3389/fspor.2024.1429789."
+  },
+  {
+    "id": "14",
+    "title": "Refalo et al. (2025). Sex differences in absolute and relative changes in muscle size.",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11869894/",
+    "description": "Revisão com meta-análise bayesiana sobre diferenças entre sexos. Ganhos relativos semelhantes apoiam a escolha de ficha pelo objetivo, sem regras rígidas de sexo. Consultados resumo e trechos indexados; DOI 10.7717/peerj.19042."
   }
 ]

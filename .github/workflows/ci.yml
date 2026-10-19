@@ -16,6 +16,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - run: npm run sheets && git diff --exit-code -- docs/fichas docs/pesquisa-masculina.md
       - run: npm audit --omit=dev
       - run: docker build --pull -t ritmo:ci .
       - name: Verificar container
@@ -29,5 +30,5 @@ jobs:
           test "$(docker inspect -f '{{.State.Health.Status}}' ritmo-check)" = healthy
           test "$(docker exec ritmo-check id -u)" = 101
           curl --fail http://127.0.0.1:8080/health
-          curl --fail http://127.0.0.1:8080/data/program.json >/dev/null
+          curl --fail http://127.0.0.1:8080/data/profiles.json >/dev/null
           curl --fail http://127.0.0.1:8080/ | grep -q 'Ritmo'

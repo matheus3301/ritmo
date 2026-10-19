@@ -13,7 +13,7 @@ import {
   validateBackup,
 } from "../dist/core.js";
 const program = JSON.parse(
-  readFileSync(new URL("../dist/data/program.json", import.meta.url)),
+  readFileSync(new URL("../dist/data/profiles/feminino.json", import.meta.url)),
 );
 const exercises = JSON.parse(
   readFileSync(new URL("../dist/data/exercises.json", import.meta.url)),

@@ -1,14 +1,16 @@
-const CACHE = "ritmo-static-v6";
+const CACHE = "ritmo-static-v8";
 const FILES = [
   "./",
   "./index.html",
   "./app.js",
   "./core.js",
   "./style.css",
-  "./data/program.json",
+  "./data/profiles.json",
+  "./data/profiles/feminino.json",
+  "./data/profiles/masculino.json",
+  "./theme-init.js",
   "./data/exercises.json",
   "./data/sources.json",
-  "./data/guidance.json",
   "./assets/display.ttf",
   "./assets/body.ttf",
   "./assets/body-bold.ttf",

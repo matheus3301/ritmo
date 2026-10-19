@@ -1,13 +1,14 @@
 {
   "name": "ritmo-treino",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "start": "node scripts/dev.mjs"
+    "start": "node scripts/dev.mjs",
+    "sheets": "node scripts/generate-sheets.mjs"
   },
-  "description": "Treino ABC no celular: agenda de 3, 4 ou 5 dias, vídeos e registros locais, sem backend.",
+  "description": "Fichas de treino em JSON, pesquisa aberta e um renderizador mobile com perfis e registros locais.",
   "license": "MIT",
   "engines": {
     "node": ">=22"

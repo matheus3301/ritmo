@@ -17,7 +17,12 @@
       "matchNotes": "Demonstração com barra. Assista ao vídeo completo: a capa mostra uma correção de técnica.",
       "thumbnailUrl": "https://i.ytimg.com/vi/6IZGqru-xA8/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Glúteos"
+    ]
   },
   "squat": {
     "id": "squat",
@@ -37,7 +42,13 @@
       "matchNotes": "Variação com um halter junto ao peito.",
       "thumbnailUrl": "https://i.ytimg.com/vi/G3a4h5mDcp4/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Quadríceps",
+      "Glúteos"
+    ]
   },
   "leg-curl": {
     "id": "leg-curl",
@@ -57,7 +68,12 @@
       "matchNotes": "Variação sentada na cadeira flexora.",
       "thumbnailUrl": "https://i.ytimg.com/vi/AFG0wxXmTH4/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Posteriores"
+    ]
   },
   "abduction": {
     "id": "abduction",
@@ -77,7 +93,12 @@
       "matchNotes": "Assista à correção no vídeo. A capa, sozinha, não mostra a postura a copiar.",
       "thumbnailUrl": "https://i.ytimg.com/vi/-Bk1QtA9r4c/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Abdutores do quadril"
+    ]
   },
   "calf": {
     "id": "calf",
@@ -97,7 +118,12 @@
       "matchNotes": "Variação em pé com halteres. Comece sem carga se necessário.",
       "thumbnailUrl": "https://i.ytimg.com/vi/-M4-G8p8fmc/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Panturrilhas"
+    ]
   },
   "pulldown": {
     "id": "pulldown",
@@ -117,7 +143,12 @@
       "matchNotes": "Use a primeira variação: puxada frontal bilateral. As demais não fazem parte desta ficha.",
       "thumbnailUrl": "https://i.ytimg.com/vi/6MLs17iyK9I/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Costas"
+    ]
   },
   "chest-press": {
     "id": "chest-press",
@@ -137,7 +168,12 @@
       "matchNotes": "Variação sentada na máquina.",
       "thumbnailUrl": "https://i.ytimg.com/vi/OXguTbCyMAw/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Peito"
+    ]
   },
   "row": {
     "id": "row",
@@ -157,7 +193,12 @@
       "matchNotes": "Variação sentada no cabo, com pegada neutra.",
       "thumbnailUrl": "https://i.ytimg.com/vi/uZ0r6iYcLwo/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Costas"
+    ]
   },
   "lateral-raise": {
     "id": "lateral-raise",
@@ -177,7 +218,12 @@
       "matchNotes": "Variação sentada com halteres. Assista à explicação dos erros antes de executar.",
       "thumbnailUrl": "https://i.ytimg.com/vi/X7_ulxuJnVU/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Ombros laterais"
+    ]
   },
   "triceps": {
     "id": "triceps",
@@ -197,7 +243,12 @@
       "matchNotes": "Variação na polia alta com barra reta.",
       "thumbnailUrl": "https://i.ytimg.com/vi/zEHmnpgi-dg/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Tríceps"
+    ]
   },
   "curl": {
     "id": "curl",
@@ -217,7 +268,12 @@
       "matchNotes": "Demonstração em pé com halteres. Confira a técnica com o instrutor.",
       "thumbnailUrl": "https://i.ytimg.com/vi/sJqVk1EiIyQ/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Bíceps"
+    ]
   },
   "dead-bug": {
     "id": "dead-bug",
@@ -237,7 +293,12 @@
       "matchNotes": "Reduza a amplitude se perder o controle do tronco.",
       "thumbnailUrl": "https://i.ytimg.com/vi/kwWZBbkXtg4/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "Marque a série depois de fazer os dois lados.",
+    "volumeGroups": [
+      "Tronco"
+    ]
   },
   "rdl": {
     "id": "rdl",
@@ -257,7 +318,13 @@
       "matchNotes": "Variação bilateral com halteres.",
       "thumbnailUrl": "https://i.ytimg.com/vi/08StUopZee8/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "",
+    "volumeGroups": [
+      "Posteriores",
+      "Glúteos"
+    ]
   },
   "split-squat": {
     "id": "split-squat",
@@ -277,7 +344,13 @@
       "matchNotes": "Os dois pés ficam no chão; a mão usa um apoio firme.",
       "thumbnailUrl": "https://i.ytimg.com/vi/vUikQQsXCbg/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "reps",
+    "recordNote": "Marque a série depois de fazer os dois lados.",
+    "volumeGroups": [
+      "Quadríceps",
+      "Glúteos"
+    ]
   },
   "plank": {
     "id": "plank",
@@ -297,6 +370,11 @@
       "matchNotes": "Mãos e joelhos apoiados, braços estendidos.",
       "thumbnailUrl": "https://i.ytimg.com/vi/IsBeCwpSDgA/hqdefault.jpg",
       "oembedAvailable": true
-    }
+    },
+    "measurement": "seconds",
+    "recordNote": "",
+    "volumeGroups": [
+      "Tronco"
+    ]
   }
 }

@@ -16,3 +16,11 @@ Preparação open source e Docker (19/10/2026): fonte formatada; nove testes apr
 Container local: UID/GID 101:101, filesystem somente leitura, /tmp temporário, capabilities removidas; health check aprovado e /health, página inicial e JSON de fichas servidos. Primeiro deploy no Coolify concluído com estado finished e container healthy. Página e /health verificados por HTTPS, inclusive na origem com certificado válido.
 
 Produção: fluxo de configuração de quatro dias validado em viewport de 390 pixels; treino de hoje e amanhã corretos, sem erros de console observados. Deploy automático confirmado por is_webhook=true após push de documentação. Imagem final local de aproximadamente 67,6 MiB.
+
+Versão 1.1, perfis e temas (19/10/2026): 16 testes aprovados. Novas verificações cobrem os dois perfis, agendas masculinas 3/4/5 dias, referências dos JSONs, migração v1 para v2, históricos separados, tema em backup e um terceiro perfil sintético com sessão D. As fichas Markdown são geradas dos JSONs e sua reprodução é conferida no CI.
+
+Revisão visual desta versão: primeiro acesso, seleção e troca de perfil em Ajustes, agendas masculinas de 3/4/5 dias, temas claro/escuro, persistência após recarregar, série sintética de 20 kg/12 repetições preservada ao trocar e voltar ao perfil masculino. Nenhuma série dessa ficha apareceu na feminina. Layouts desktop e mobile em 390 e 320 pixels; corrigida rolagem lateral no formulário. Testes feitos em navegador desktop com viewport móvel, sem aparelho físico.
+
+Offline desta versão: servidor local de localhost:43187 encerrado, página recarregada com sucesso, configurações da ficha masculina restauradas e troca para a ficha feminina concluída sem servidor. O teste cobre os arquivos próprios; vídeos externos continuam dependendo de conexão.
+
+Publicação preparada: npm audit sem vulnerabilidades; imagem local de aproximadamente 67,7 MiB, execução com UID 101, somente leitura e health check aprovado. Trivy 0.76.0 sem achados HIGH/CRITICAL no conjunto de pacotes usado nesta versão. A mudança posterior de CSS/formatação não altera esses pacotes.

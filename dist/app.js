@@ -1,5 +1,9 @@
 import {
   STORE_KEY,
+  LEGACY_STORE_KEY,
+  emptyState,
+  validateState,
+  validateProfile,
   dayNames,
   isoDate,
   parseDate,
@@ -10,7 +14,6 @@ import {
   scheduleFor,
   workoutKey,
   progressFor,
-  validateBackup,
 } from "./core.js";
 const $ = (s) => document.querySelector(s);
 const escape = (s) =>
@@ -41,7 +44,12 @@ const icon = (name, size = 22) => {
   };
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.info}</svg>`;
 };
-let program,
+let catalog,
+  profiles,
+  allSources,
+  library,
+  draftProfileId,
+  program,
   exercises,
   sources,
   guidance,
@@ -68,9 +76,34 @@ function toast(message) {
   clearTimeout(toast.timeout);
   toast.timeout = setTimeout(() => $("#toast").classList.remove("show"), 4500);
 }
+function activateProfile() {
+  program = profiles[library.profileId];
+  state = library.plans[library.profileId] || {
+    version: 1,
+    preferences: null,
+    logs: {},
+  };
+  guidance = program.guidance;
+  sources = allSources.filter((s) => program.sourceIds.includes(s.id));
+  applyTheme();
+}
+function applyTheme() {
+  const dark =
+    library.theme === "dark" ||
+    (library.theme === "system" &&
+      matchMedia("(prefers-color-scheme: dark)").matches);
+  document.documentElement.dataset.theme = dark ? "dark" : "light";
+  document.querySelector('meta[name="theme-color"]').content = dark
+    ? "#171622"
+    : "#f7f8fc";
+}
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+  if (library) applyTheme();
+});
 function persist() {
+  if (state.preferences) library.plans[library.profileId] = state;
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    localStorage.setItem(STORE_KEY, JSON.stringify(library));
     storageWarning = "";
   } catch {
     storageWarning =
@@ -126,13 +159,47 @@ function pageShell(content) {
   app.innerHTML = `<div class="shell"><aside class="sidebar">${brand()}<p class="sidebar-tag">Um treino de cada vez.</p>${nav()}<div class="side-bottom"><span class="local-dot"></span> Seus registros ficam aqui.<button class="text-button" data-action="guide">Sobre o plano ${icon("info", 16)}</button></div></aside><div class="main-shell"><header class="mobile-header">${brand()}<button class="round-button" data-action="guide" aria-label="Sobre o plano">${icon("info")}</button></header><div id="storage-warning" class="warning" role="status" ${storageWarning ? "" : "hidden"}>${escape(storageWarning)}</div><main id="main" tabindex="-1">${content}</main><div class="mobile-nav">${nav()}</div></div></div>`;
 }
 function startDraft() {
+  draftProfileId = library.profileId;
   draft = state.preferences
     ? { ...state.preferences, days: [...state.preferences.days] }
-    : { frequency: 3, days: [1, 3, 5], startDate: isoDate() };
+    : {
+        frequency: Number(Object.keys(program.sequences)[0]),
+        days: [...program.defaults[Object.keys(program.sequences)[0]]],
+        startDate: isoDate(),
+      };
 }
 function onboarding() {
   if (!draft) startDraft();
-  app.innerHTML = `<main id="main" class="onboarding"><div class="onboard-story">${brand()}<div class="story-content"><p class="eyebrow">SEU PLANO A/B/C</p><h1>Encontre<br>seu ritmo.</h1><p>Escolha seus dias. O treino fica pronto.<br>A evolução vem uma série de cada vez.</p><div class="routine-art" aria-hidden="true"><div class="art-ticket"><span>A</span><div>Glúteos<br>e quadríceps</div><i>↗</i></div><div class="art-ticket"><span>B</span><div>Superiores<br>e tronco</div><i>↗</i></div><div class="art-ticket"><span>C</span><div>Glúteos<br>e posteriores</div><i>↗</i></div></div></div><p class="story-foot">Para quem está começando. Com espaço para crescer.</p></div><section class="onboard-form">${storageWarning ? `<p class="warning" role="status">${escape(storageWarning)}</p>` : ""}<span class="small-tag">${editing ? "SUA ROTINA" : "VAMOS COMEÇAR"}</span><h2>${editing ? "Ajuste a sua semana." : "Quantos dias cabem<br>na sua semana?"}</h2><p class="muted">Escolha uma frequência que você consegue manter.</p><form id="preferences-form"><fieldset><legend class="sr-only">Dias de academia por semana</legend><div class="frequency">${[3, 4, 5].map((n) => `<button type="button" data-action="frequency" data-value="${n}" class="frequency-option ${draft.frequency === n ? "selected" : ""}" aria-pressed="${draft.frequency === n}"><strong>${n}</strong><span>dias</span></button>`).join("")}</div></fieldset><p class="plan-hint">${draft.frequency === 3 ? "A + B + C. Uma base para começar." : draft.frequency === 4 ? "A + B + C + B. Mais espaço para superiores." : "A + B + cardio + C + B. O quinto dia cuida do fôlego."}</p><fieldset class="days-field"><legend>Em quais dias?</legend><div class="day-picker">${[1, 2, 3, 4, 5, 6, 0].map((d) => `<button type="button" data-action="weekday" data-value="${d}" aria-label="${dayNames[d]}" aria-pressed="${draft.days.includes(d)}" class="day-option ${draft.days.includes(d) ? "selected" : ""}">${dayNames[d].slice(0, 3)}</button>`).join("")}</div></fieldset><label class="date-label" for="start-date">${editing ? "Data em que começou o plano" : "Quando você começa?"}</label><input id="start-date" name="startDate" type="date" required value="${draft.startDate}"><p class="form-note">As primeiras 2 semanas têm menos séries para você aprender os movimentos.</p><p id="form-error" class="form-error" role="alert"></p><button class="button primary wide" type="submit">${editing ? "Salvar minha rotina" : "Montar meu treino"} ${icon("arrow")}</button>${editing ? '<button type="button" class="button subtle wide" data-action="cancel-edit">Voltar sem alterar</button>' : ""}</form><p class="privacy-note">Sem cadastro. Sua rotina e suas cargas ficam neste navegador. Você pode exportar uma cópia depois.</p><button class="text-button" data-action="guide">Conhecer o plano e suas fontes ${icon("arrow", 16)}</button></section></main>`;
+  const selectedProfile = profiles[draftProfileId];
+  app.innerHTML = `<main id="main" class="onboarding"><div class="onboard-story">${brand()}<div class="story-content"><p class="eyebrow">SEU PLANO A/B/C</p><h1>Encontre<br>seu ritmo.</h1><p>Escolha seus dias. O treino fica pronto.<br>A evolução vem uma série de cada vez.</p><div class="routine-art" aria-hidden="true">${Object.values(
+    selectedProfile.workouts,
+  )
+    .map(
+      (w) =>
+        `<div class="art-ticket"><span>${escape(w.id)}</span><div>${escape(w.name)}</div><i>↗</i></div>`,
+    )
+    .join(
+      "",
+    )}</div></div><p class="story-foot">Para quem está começando. Com espaço para crescer.</p></div><section class="onboard-form">${storageWarning ? `<p class="warning" role="status">${escape(storageWarning)}</p>` : ""}<span class="small-tag">${editing ? "SUA ROTINA" : "VAMOS COMEÇAR"}</span><h2>${editing ? "Seu plano, do seu jeito." : "Qual é o seu foco?"}</h2><p class="muted">Escolha sua ficha e uma frequência que você consegue manter.</p><form id="preferences-form"><fieldset class="profile-field"><legend>Sua ficha de treino</legend><div class="profile-picker">${Object.values(
+    profiles,
+  )
+    .map(
+      (p) =>
+        `<button type="button" class="profile-option ${draftProfileId === p.id ? "selected" : ""}" data-action="profile" data-value="${escape(p.id)}" aria-pressed="${draftProfileId === p.id}"><span class="profile-check">${draftProfileId === p.id ? icon("check", 18) : ""}</span><strong>${escape(p.label)}</strong><span>${escape(p.subtitle)}</span></button>`,
+    )
+    .join(
+      "",
+    )}</div><p class="form-note">Os nomes indicam o foco da ficha. Escolha pelo seu objetivo. Você pode trocar depois, sem perder os registros.</p></fieldset><fieldset><legend class="sr-only">Dias de academia por semana</legend><div class="frequency">${Object.keys(
+    selectedProfile.sequences,
+  )
+    .map(Number)
+    .map(
+      (n) =>
+        `<button type="button" data-action="frequency" data-value="${n}" class="frequency-option ${draft.frequency === n ? "selected" : ""}" aria-pressed="${draft.frequency === n}"><strong>${n}</strong><span>dias</span></button>`,
+    )
+    .join(
+      "",
+    )}</div></fieldset><p class="plan-hint">${escape(selectedProfile.scheduleHints[draft.frequency])}</p><fieldset class="days-field"><legend>Em quais dias?</legend><div class="day-picker">${[1, 2, 3, 4, 5, 6, 0].map((d) => `<button type="button" data-action="weekday" data-value="${d}" aria-label="${dayNames[d]}" aria-pressed="${draft.days.includes(d)}" class="day-option ${draft.days.includes(d) ? "selected" : ""}">${dayNames[d].slice(0, 3)}</button>`).join("")}</div></fieldset><label class="date-label" for="start-date">${editing ? "Data em que começou o plano" : "Quando você começa?"}</label><input id="start-date" name="startDate" type="date" required value="${draft.startDate}"><p class="form-note">As primeiras ${selectedProfile.adaptationWeeks} semanas têm menos séries para você aprender os movimentos.</p><p id="form-error" class="form-error" role="alert"></p><button class="button primary wide" type="submit">${editing ? "Salvar minha rotina" : "Montar meu treino"} ${icon("arrow")}</button>${editing ? '<button type="button" class="button subtle wide" data-action="cancel-edit">Voltar sem alterar</button>' : ""}</form><p class="privacy-note">Sem cadastro. Sua rotina e suas cargas ficam neste navegador. Você pode exportar uma cópia depois.</p><button class="text-button" data-action="guide">Conhecer o plano e suas fontes ${icon("arrow", 16)}</button></section></main>`;
 }
 function weekStrip() {
   const start = addDays(
@@ -156,7 +223,7 @@ function exerciseCard(e, index) {
       { length: e.sets },
       (_, i) => log?.sets?.[i]?.done,
     ).filter(Boolean).length;
-  return `<button class="exercise-card ${done === e.sets ? "finished" : ""}" data-action="exercise" data-value="${e.exerciseId}"><div class="exercise-thumb">${x.media?.youtubeId ? `<img src="https://i.ytimg.com/vi/${x.media.youtubeId}/mqdefault.jpg" alt="" width="120" height="90" loading="lazy"><span class="thumb-play">${icon("play", 13)}</span>` : `<span class="movement-mark">${String(index + 1).padStart(2, "0")}</span>`}</div><div class="exercise-card-copy"><span class="exercise-order">${e.extra ? "COMPLEMENTO DE SUPERIORES" : `EXERCÍCIO ${String(index + 1).padStart(2, "0")}`}</span><h3>${escape(x.name)}</h3><p>${e.sets} ${e.sets === 1 ? "série" : "séries"} <span>·</span> ${escape(e.reps)} ${e.reps.includes("s") ? "" : "reps"}</p></div><span class="exercise-status">${done === e.sets ? icon("check") : icon("chevron", 18)}<small>${done}/${e.sets}</small></span></button>`;
+  return `<button class="exercise-card ${done === e.sets ? "finished" : ""}" data-action="exercise" data-value="${e.exerciseId}"><div class="exercise-thumb">${x.media?.youtubeId ? `<img src="https://i.ytimg.com/vi/${x.media.youtubeId}/mqdefault.jpg" alt="" width="120" height="90" loading="lazy"><span class="thumb-play">${icon("play", 13)}</span>` : `<span class="movement-mark">${String(index + 1).padStart(2, "0")}</span>`}</div><div class="exercise-card-copy"><span class="exercise-order">${e.extra ? "COMPLEMENTO" : `EXERCÍCIO ${String(index + 1).padStart(2, "0")}`}</span><h3>${escape(x.name)}</h3><p>${e.sets} ${e.sets === 1 ? "série" : "séries"} <span>·</span> ${escape(e.reps)} ${x.measurement === "seconds" ? "" : "reps"}</p></div><span class="exercise-status">${done === e.sets ? icon("check") : icon("chevron", 18)}<small>${done}/${e.sets}</small></span></button>`;
 }
 function dayPage() {
   const w = todayWorkout(),
@@ -164,11 +231,11 @@ function dayPage() {
     tom = scheduleFor(addDays(selectedDate, 1), state.preferences, program),
     future = selectedDate > isoDate(),
     isToday = selectedDate === isoDate();
-  return `<div class="page-heading"><div><p class="eyebrow">${dateLabel(selectedDate, { weekday: "long", day: "numeric", month: "long" })}</p><h1>${isToday ? "Seu treino de hoje." : selectedDate === addDays(isoDate(), 1) ? "Um olhar para amanhã." : "Seu treino, dia a dia."}</h1></div><button class="round-button desktop-info" data-action="guide" aria-label="Sobre o plano">${icon("info")}</button></div>${weekStrip()}<div class="dashboard-grid"><div class="training-column"><section class="workout-hero ${w.id === "rest" ? "recovery" : w.id === "cardio" ? "cardio" : ""}"><div class="hero-top"><span class="pill">SEMANA ${w.week} ${w.week <= 12 ? "/ 12" : ""}</span><span class="hero-phase">${w.adaptation ? "Adaptação" : "Treino base"}</span></div><span class="hero-letter" aria-hidden="true">${["A", "B", "C"].includes(w.id) ? w.id : w.id === "rest" ? "✳" : "↗"}</span><div class="hero-copy"><p>${["A", "B", "C"].includes(w.id) ? `TREINO ${w.id}` : w.id === "rest" ? "RECUPERAÇÃO" : "CONDICIONAMENTO"}</p><h2>${w.name}</h2><div class="hero-meta">${icon("clock", 17)}<span>${w.minutes ? `${w.minutes} min${w.id === "C" && state.preferences.frequency === 3 ? " + complemento" : ""}` : w.id === "cardio" ? (w.adaptation ? "20-30 min" : "30-45 min") : "Sem pressa hoje"}</span>${w.exercises.length ? `<span class="meta-dot">·</span><span>${w.exercises.length} exercícios</span>` : ""}</div></div></section>${w.exercises.length ? `<div class="session-progress"><span>${p.done === p.total ? "Treino concluído" : future ? "Veja o que está programado" : "Seu progresso neste treino"}</span><b>${p.done}/${p.total} séries</b><div class="progress-track"><div style="width:${Math.round((p.done / p.total) * 100)}%"></div></div></div><div class="section-title"><h2>Seu passo a passo</h2><span>Toque para começar</span></div><div class="exercise-list">${w.exercises.map(exerciseCard).join("")}</div>` : w.id === "cardio" ? cardioPanel(future) : `<section class="plain-card recovery-copy">${icon("leaf", 32)}<h2>O descanso faz parte.</h2><p>Uma caminhada leve cabe aqui, se você quiser. Guarde energia para a próxima sessão e mantenha sua rotina de sono.</p><button class="button secondary" data-action="next-workout">Ver próximo treino ${icon("arrow")}</button></section>`}</div><aside class="day-aside"><section class="tip-card"><span class="tip-icon">${icon(w.adaptation ? "info" : "check")}</span><p class="eyebrow">${w.adaptation ? "COMECE COM CONTROLE" : "QUALIDADE ANTES DA CARGA"}</p><h3>${w.adaptation ? "Aprenda o movimento." : "Deixe algumas na reserva."}</h3><p>${w.adaptation ? "As séries já estão reduzidas. Termine cada uma sentindo que conseguiria fazer mais 3 ou 4 repetições bem executadas." : "Termine cada série com cerca de 2 ou 3 repetições em reserva. Aumente a carga quando completar a faixa com boa técnica."}</p><button class="text-button" data-action="guide">Como evoluir ${icon("arrow", 16)}</button></section><button class="tomorrow-card" data-action="date" data-value="${addDays(selectedDate, 1)}"><span class="eyebrow">${isToday ? "AMANHÃ" : "NO DIA SEGUINTE"}</span><div><span class="next-letter">${["A", "B", "C"].includes(tom.id) ? tom.id : tom.id === "cardio" ? "↗" : "✳"}</span><h3>${tom.name}</h3>${icon("arrow")}</div></button><div class="warmup-note">${icon("clock", 18)}<p><b>Antes de começar</b><br>5-8 minutos leves e séries de preparação. Peça ao instrutor para conferir os ajustes.</p></div><p class="small-disclaimer">Plano educativo para uma adulta iniciante. Revise com o instrutor se houver dor, lesão ou condição que exija adaptação.</p></aside></div>`;
+  return `<div class="page-heading"><div><p class="eyebrow">${dateLabel(selectedDate, { weekday: "long", day: "numeric", month: "long" })}</p><h1>${isToday ? "Seu treino de hoje." : selectedDate === addDays(isoDate(), 1) ? "Um olhar para amanhã." : "Seu treino, dia a dia."}</h1></div><button class="round-button desktop-info" data-action="guide" aria-label="Sobre o plano">${icon("info")}</button></div>${weekStrip()}<div class="dashboard-grid"><div class="training-column"><section class="workout-hero ${w.id === "rest" ? "recovery" : w.id === "cardio" ? "cardio" : ""}"><div class="hero-top"><span class="pill">SEMANA ${w.week} ${w.week <= program.durationWeeks ? `/ ${program.durationWeeks}` : ""}</span><span class="hero-phase">${w.adaptation ? "Adaptação" : "Treino base"}</span></div><span class="hero-letter" aria-hidden="true">${Object.hasOwn(program.workouts, w.id) ? w.id : w.id === "rest" ? "✳" : "↗"}</span><div class="hero-copy"><p>${Object.hasOwn(program.workouts, w.id) ? `TREINO ${w.id}` : w.id === "rest" ? "RECUPERAÇÃO" : "CONDICIONAMENTO"}</p><h2>${w.name}</h2><div class="hero-meta">${icon("clock", 17)}<span>${w.minutes ? `${w.minutes} min${w.exercises.some((e) => e.extra) ? " + complemento" : ""}` : w.id === "cardio" ? `${w.adaptation ? program.cardio.adaptationMinutes : program.cardio.baseMinutes} min` : "Sem pressa hoje"}</span>${w.exercises.length ? `<span class="meta-dot">·</span><span>${w.exercises.length} exercícios</span>` : ""}</div></div></section>${w.exercises.length ? `<div class="session-progress"><span>${p.done === p.total ? "Treino concluído" : future ? "Veja o que está programado" : "Seu progresso neste treino"}</span><b>${p.done}/${p.total} séries</b><div class="progress-track"><div style="width:${Math.round((p.done / p.total) * 100)}%"></div></div></div><div class="section-title"><h2>Seu passo a passo</h2><span>Toque para começar</span></div><div class="exercise-list">${w.exercises.map(exerciseCard).join("")}</div>` : w.id === "cardio" ? cardioPanel(future) : `<section class="plain-card recovery-copy">${icon("leaf", 32)}<h2>O descanso faz parte.</h2><p>Uma caminhada leve cabe aqui, se você quiser. Guarde energia para a próxima sessão e mantenha sua rotina de sono.</p><button class="button secondary" data-action="next-workout">Ver próximo treino ${icon("arrow")}</button></section>`}</div><aside class="day-aside"><section class="tip-card"><span class="tip-icon">${icon(w.adaptation ? "info" : "check")}</span><p class="eyebrow">${w.adaptation ? "COMECE COM CONTROLE" : "QUALIDADE ANTES DA CARGA"}</p><h3>${w.adaptation ? "Aprenda o movimento." : "Deixe algumas na reserva."}</h3><p>${w.adaptation ? "As séries já estão reduzidas. Termine cada uma sentindo que conseguiria fazer mais " + program.adaptationRir + " repetições bem executadas." : "Termine cada série com cerca de " + program.baseRir + " repetições em reserva. Aumente a carga quando completar a faixa com boa técnica."}</p><button class="text-button" data-action="guide">Como evoluir ${icon("arrow", 16)}</button></section><button class="tomorrow-card" data-action="date" data-value="${addDays(selectedDate, 1)}"><span class="eyebrow">${isToday ? "AMANHÃ" : "NO DIA SEGUINTE"}</span><div><span class="next-letter">${Object.hasOwn(program.workouts, tom.id) ? tom.id : tom.id === "cardio" ? "↗" : "✳"}</span><h3>${tom.name}</h3>${icon("arrow")}</div></button><div class="warmup-note">${icon("clock", 18)}<p><b>Antes de começar</b><br>5-8 minutos leves e séries de preparação. Peça ao instrutor para conferir os ajustes.</p></div><p class="small-disclaimer">${escape(program.audience)} Plano educativo. Revise com o instrutor se houver dor, lesão ou condição que exija adaptação.</p></aside></div>`;
 }
 function cardioPanel(future) {
   const log = getLog();
-  return `<section class="plain-card"><h2>Respiração mais rápida.<br>Conversa ainda possível.</h2><p>Escolha caminhada, bicicleta ou elíptico. Comece com 20-30 minutos e aumente aos poucos, conforme sua recuperação.</p><label for="cardio-minutes">Quantos minutos você fez?</label><input id="cardio-minutes" type="number" inputmode="numeric" min="1" max="300" value="${log.minutes || ""}" placeholder="Ex.: 25" ${future ? "disabled" : ""}><button class="button primary wide" data-action="complete-cardio" ${future ? "disabled" : ""}>${log.completed ? "Atualizar cardio" : "Registrar cardio"} ${icon("check")}</button>${log.completed ? '<button class="text-button" data-action="undo-cardio">Desmarcar cardio</button>' : ""}${future ? '<p class="muted">O registro fica disponível no dia do treino.</p>' : ""}</section>`;
+  return `<section class="plain-card"><h2>Respiração mais rápida.<br>Conversa ainda possível.</h2><p>${escape(program.cardio.text)}</p><label for="cardio-minutes">Quantos minutos você fez?</label><input id="cardio-minutes" type="number" inputmode="numeric" min="1" max="300" value="${log.minutes || ""}" placeholder="Ex.: 25" ${future ? "disabled" : ""}><button class="button primary wide" data-action="complete-cardio" ${future ? "disabled" : ""}>${log.completed ? "Atualizar cardio" : "Registrar cardio"} ${icon("check")}</button>${log.completed ? '<button class="text-button" data-action="undo-cardio">Desmarcar cardio</button>' : ""}${future ? '<p class="muted">O registro fica disponível no dia do treino.</p>' : ""}</section>`;
 }
 function weekPage() {
   const start = addDays(
@@ -185,7 +252,7 @@ function weekPage() {
     },
   ).join(
     "",
-  )}</div><section class="plain-card compact"><h2>Faltou um dia?</h2><p>Não junte duas fichas de pernas para compensar. Preserve um dia sem treino pesado de inferiores entre A e C. Se a rotina mudou, ajuste os dias da semana.</p><button class="button secondary" data-action="edit-plan">Ajustar minha rotina ${icon("arrow")}</button></section>`;
+  )}</div><section class="plain-card compact"><h2>Faltou um dia?</h2><p>${escape(program.recoveryNote)} Se a rotina mudou, ajuste os dias da semana.</p><button class="button secondary" data-action="edit-plan">Ajustar minha rotina ${icon("arrow")}</button></section>`;
 }
 function progressPage() {
   const records = Object.entries(state.logs)
@@ -207,7 +274,7 @@ function progressPage() {
     const total = log.prescription?.reduce((n, e) => n + e.sets, 0);
     if (log.completed || (total && done >= total)) sessions++;
   }
-  return `<div class="page-heading"><div><p class="eyebrow">O QUE VOCÊ JÁ FEZ</p><h1>Cada série conta.</h1></div></div><div class="stats"><section><strong>${sessions}</strong><span>sessões concluídas</span></section><section><strong>${sets}</strong><span>séries registradas</span></section><section><strong>${Math.min(12, weekNumber(isoDate(), state.preferences.startDate))}</strong><span>semana do plano</span></section></div><div class="section-title"><h2>Seu histórico</h2><span>Salvo neste aparelho</span></div>${
+  return `<div class="page-heading"><div><p class="eyebrow">O QUE VOCÊ JÁ FEZ</p><h1>Cada série conta.</h1></div></div><div class="stats"><section><strong>${sessions}</strong><span>sessões concluídas</span></section><section><strong>${sets}</strong><span>séries registradas</span></section><section><strong>${Math.min(program.durationWeeks, weekNumber(isoDate(), state.preferences.startDate))}</strong><span>semana do plano</span></section></div><div class="section-title"><h2>Seu histórico</h2><span>Ficha ${escape(program.label.toLowerCase())}</span></div>${
     records.length
       ? `<div class="history-list">${records
           .map(([key, log]) => {
@@ -231,15 +298,27 @@ function progressPage() {
   }<p class="small-disclaimer">Cargas de máquinas diferentes não são comparáveis. Força, frequência e recuperação ajudam a avaliar o progresso; estes registros não medem perda de gordura ou ganho muscular.</p>`;
 }
 function settingsPage() {
-  return `<div class="page-heading"><div><p class="eyebrow">DO SEU JEITO</p><h1>A sua rotina.</h1></div></div><section class="settings-card"><span class="eyebrow">SEU PLANO</span><h2>${state.preferences.frequency} dias por semana</h2><p>${orderedDays(
+  return `<div class="page-heading"><div><p class="eyebrow">DO SEU JEITO</p><h1>A sua rotina.</h1></div></div><section class="settings-card"><span class="eyebrow">FICHA ${escape(program.label.toUpperCase())}</span><p>${escape(program.subtitle)}</p><h2>${state.preferences.frequency} dias por semana</h2><p>${orderedDays(
     state.preferences.days,
   )
     .map((d) => dayNames[d])
     .join(
       ", ",
-    )}.</p><p class="muted">Início em ${dateLabel(state.preferences.startDate, { day: "numeric", month: "long", year: "numeric" })}.</p><button class="button primary" data-action="edit-plan">Alterar dias ${icon("arrow")}</button></section><section class="settings-card"><h2>Seus registros ficam com você.</h2><p>As cargas e séries são salvas neste navegador. Limpar os dados do site ou trocar de celular não transfere o histórico. Em uma aba privada, ele pode desaparecer ao fechar.</p><div class="button-row"><button class="button secondary" data-action="export">${icon("download", 18)} Exportar cópia</button><label class="button secondary file-label">Importar cópia<input id="import-file" type="file" accept="application/json,.json" class="sr-only"></label></div><p class="form-note">A importação substitui a rotina e os registros atuais após sua confirmação.</p></section><section class="settings-card"><h2>Leve o Ritmo para a tela inicial.</h2><p>No iPhone, abra no Safari, toque em Compartilhar e em “Adicionar à Tela de Início”. No Android, abra o menu do navegador e procure “Instalar app” ou “Adicionar à tela inicial”.</p><p class="muted">Depois do primeiro acesso completo, a ficha pode abrir sem internet. Os vídeos e suas imagens precisam de conexão.</p></section><section class="settings-card"><h2>Por trás do plano</h2><p>Pesquisa com nove fontes, adaptação inicial e progressão de 12 semanas.</p><button class="text-button" data-action="guide">Ler orientações e fontes ${icon("arrow", 18)}</button><button class="text-button danger" data-action="reset">Apagar meus registros deste aparelho</button></section>`;
+    )}.</p><p class="muted">Início em ${dateLabel(state.preferences.startDate, { day: "numeric", month: "long", year: "numeric" })}.</p><button class="button primary" data-action="edit-plan">Alterar ficha e dias ${icon("arrow")}</button></section><section class="settings-card"><span class="eyebrow">APARÊNCIA</span><h2>Uma luz para cada ambiente.</h2><p>Escolha um tema ou acompanhe a aparência do aparelho.</p><div class="theme-picker" role="group" aria-label="Tema">${[
+    ["light", "Claro"],
+    ["dark", "Escuro"],
+    ["system", "Automático"],
+  ]
+    .map(
+      ([id, label]) =>
+        `<button class="theme-option ${library.theme === id ? "selected" : ""}" data-action="theme" data-value="${id}" aria-pressed="${library.theme === id}"><span class="theme-swatch ${id}" aria-hidden="true"></span>${label}</button>`,
+    )
+    .join(
+      "",
+    )}</div></section><section class="settings-card"><h2>Seus registros ficam com você.</h2><p>As cargas e séries são salvas neste navegador. Limpar os dados do site ou trocar de celular não transfere o histórico. Em uma aba privada, ele pode desaparecer ao fechar.</p><div class="button-row"><button class="button secondary" data-action="export">${icon("download", 18)} Exportar cópia</button><label class="button secondary file-label">Importar cópia<input id="import-file" type="file" accept="application/json,.json" class="sr-only"></label></div><p class="form-note">A cópia inclui todas as fichas, seus históricos e o tema. A importação substitui esses dados após sua confirmação.</p></section><section class="settings-card"><h2>Leve o Ritmo para a tela inicial.</h2><p>No iPhone, abra no Safari, toque em Compartilhar e em “Adicionar à Tela de Início”. No Android, abra o menu do navegador e procure “Instalar app” ou “Adicionar à tela inicial”.</p><p class="muted">Depois do primeiro acesso completo, a ficha pode abrir sem internet. Os vídeos e suas imagens precisam de conexão.</p></section><section class="settings-card"><h2>Por trás do plano</h2><p>${sources.length} fontes nesta ficha, adaptação inicial e ${program.durationWeeks} semanas para construir uma rotina.</p><button class="text-button" data-action="guide">Ler orientações e fontes ${icon("arrow", 18)}</button><button class="text-button danger" data-action="reset">Apagar meus registros deste aparelho</button></section>`;
 }
 function render() {
+  activateProfile();
   if (!state.preferences || editing) {
     onboarding();
     return;
@@ -299,16 +378,16 @@ function openExercise(id) {
     log = getLog().exercises?.[id],
     future = selectedDate > isoDate(),
     media = x.media;
-  dialog.innerHTML = `<div class="dialog-top"><span class="eyebrow">TREINO ${w.id} · ${entry.sets} ${entry.sets === 1 ? "SÉRIE" : "SÉRIES"}</span><button class="round-button" data-action="close-exercise" aria-label="Fechar exercício">${icon("close")}</button></div><h2 id="exercise-title">${escape(x.name)}</h2><p class="exercise-prescription">${escape(entry.reps)} ${entry.reps.includes("s") ? "" : "repetições"} <span>·</span> ${escape(entry.restLabel)} de pausa</p>${media?.youtubeId ? `<div id="media-player" class="video-frame"><button class="video-launch" data-action="play-video" aria-label="Reproduzir demonstração de ${escape(x.name)}"><img src="https://i.ytimg.com/vi/${media.youtubeId}/hqdefault.jpg" width="480" height="360" alt="Demonstração de ${escape(x.name)}"><span class="play-circle">${icon("play", 30)}</span><span class="video-caption">Ver execução</span></button></div><div class="video-attribution"><span>${escape(media.channel)}${media.language === "en" ? " · vídeo em inglês" : ""}</span><a href="${escape(media.url)}" target="_blank" rel="noopener noreferrer">Abrir no YouTube ↗</a></div>${media.matchNotes ? `<p class="form-note">${escape(media.matchNotes)}</p>` : ""}` : '<div class="media-unavailable">A demonstração está em revisão. Peça ao instrutor para conferir a execução.</div>'}<div class="technique"><h3>Preste atenção</h3><p>${escape(x.cue)}</p><p class="form-note">Use uma carga que deixe ${w.adaptation ? "3-4" : "2-3"} repetições em reserva. Pare se houver dor aguda ou articular.</p></div><div class="sets-heading"><h3>Suas séries</h3><span>${future ? "Disponível no dia do treino" : "Carga por halter, quando houver"}</span></div><div class="sets-table"><div class="sets-labels"><span>Série</span><span>Carga (kg)</span><span>${id === "plank" ? "Tempo (s)" : "Reps"}</span><span>Feita</span></div>${Array.from(
+  dialog.innerHTML = `<div class="dialog-top"><span class="eyebrow">TREINO ${w.id} · ${entry.sets} ${entry.sets === 1 ? "SÉRIE" : "SÉRIES"}</span><button class="round-button" data-action="close-exercise" aria-label="Fechar exercício">${icon("close")}</button></div><h2 id="exercise-title">${escape(x.name)}</h2><p class="exercise-prescription">${escape(entry.reps)} ${x.measurement === "seconds" ? "" : "repetições"} <span>·</span> ${escape(entry.restLabel)} de pausa</p>${media?.youtubeId ? `<div id="media-player" class="video-frame"><button class="video-launch" data-action="play-video" aria-label="Reproduzir demonstração de ${escape(x.name)}"><img src="https://i.ytimg.com/vi/${media.youtubeId}/hqdefault.jpg" width="480" height="360" alt="Demonstração de ${escape(x.name)}"><span class="play-circle">${icon("play", 30)}</span><span class="video-caption">Ver execução</span></button></div><div class="video-attribution"><span>${escape(media.channel)}${media.language === "en" ? " · vídeo em inglês" : ""}</span><a href="${escape(media.url)}" target="_blank" rel="noopener noreferrer">Abrir no YouTube ↗</a></div>${media.matchNotes ? `<p class="form-note">${escape(media.matchNotes)}</p>` : ""}` : '<div class="media-unavailable">A demonstração está em revisão. Peça ao instrutor para conferir a execução.</div>'}<div class="technique"><h3>Preste atenção</h3><p>${escape(x.cue)}</p><p class="form-note">Use uma carga que deixe ${w.adaptation ? program.adaptationRir : program.baseRir} repetições em reserva. Pare se houver dor aguda ou articular.</p></div><div class="sets-heading"><h3>Suas séries</h3><span>${future ? "Disponível no dia do treino" : "Carga por halter, quando houver"}</span></div><div class="sets-table"><div class="sets-labels"><span>Série</span><span>Carga (kg)</span><span>${x.measurement === "seconds" ? "Tempo (s)" : "Reps"}</span><span>Feita</span></div>${Array.from(
     { length: entry.sets },
     (_, i) => {
       const s = log?.sets?.[i] || {},
         prev = lastWeight(id, i);
-      return `<div class="set-row ${s.done ? "done" : ""}"><b>${i + 1}</b><input aria-label="Carga da série ${i + 1} em quilos" name="weight-${i}" data-field="weight" data-index="${i}" type="text" inputmode="decimal" maxlength="8" value="${escape(s.weight || "")}" placeholder="${prev ? escape(prev) : "0"}" ${future ? "disabled" : ""}><input aria-label="${id === "plank" ? "Segundos" : "Repetições"} da série ${i + 1}" name="reps-${i}" data-field="reps" data-index="${i}" type="text" inputmode="numeric" maxlength="8" value="${escape(s.reps || "")}" placeholder="${escape(entry.reps.split(" ")[0])}" ${future ? "disabled" : ""}><button class="set-check ${s.done ? "checked" : ""}" aria-label="${s.done ? "Desmarcar" : "Concluir"} série ${i + 1}" aria-pressed="${!!s.done}" data-action="toggle-set" data-index="${i}" ${future ? "disabled" : ""}>${icon("check", 20)}</button></div>`;
+      return `<div class="set-row ${s.done ? "done" : ""}"><b>${i + 1}</b><input aria-label="Carga da série ${i + 1} em quilos" name="weight-${i}" data-field="weight" data-index="${i}" type="text" inputmode="decimal" maxlength="8" value="${escape(s.weight || "")}" placeholder="${prev ? escape(prev) : "0"}" ${future ? "disabled" : ""}><input aria-label="${x.measurement === "seconds" ? "Segundos" : "Repetições"} da série ${i + 1}" name="reps-${i}" data-field="reps" data-index="${i}" type="text" inputmode="numeric" maxlength="8" value="${escape(s.reps || "")}" placeholder="${escape(entry.reps.split(" ")[0])}" ${future ? "disabled" : ""}><button class="set-check ${s.done ? "checked" : ""}" aria-label="${s.done ? "Desmarcar" : "Concluir"} série ${i + 1}" aria-pressed="${!!s.done}" data-action="toggle-set" data-index="${i}" ${future ? "disabled" : ""}>${icon("check", 20)}</button></div>`;
     },
   ).join(
     "",
-  )}</div><p class="form-note">A carga em cinza, quando aparece, é uma referência do treino anterior. Digite para registrá-la hoje.${id === "split-squat" ? " Marque a série depois de fazer as duas pernas." : ""}</p><button class="button secondary wide" data-action="rest" data-value="${entry.restSeconds}">${icon("clock", 18)} Iniciar descanso · ${entry.restLabel}</button><div id="dialog-timer" hidden></div><button class="button primary wide" data-action="next-exercise">${w.exercises.findIndex((e) => e.exerciseId === id) === w.exercises.length - 1 ? "Voltar ao treino" : "Próximo exercício"} ${icon("arrow")}</button>`;
+  )}</div><p class="form-note">A carga em cinza, quando aparece, é uma referência do treino anterior. Digite para registrá-la hoje. ${escape(x.recordNote)}</p><button class="button secondary wide" data-action="rest" data-value="${entry.restSeconds}">${icon("clock", 18)} Iniciar descanso · ${entry.restLabel}</button><div id="dialog-timer" hidden></div><button class="button primary wide" data-action="next-exercise">${w.exercises.findIndex((e) => e.exerciseId === id) === w.exercises.length - 1 ? "Voltar ao treino" : "Próximo exercício"} ${icon("arrow")}</button>`;
   if (!dialog.open) dialog.showModal();
   dialog.scrollTop = 0;
 }
@@ -336,8 +415,14 @@ function saveSet(index, field, value) {
   persist();
 }
 function showGuide() {
+  const preview =
+    draft && (!state.preferences || editing)
+      ? profiles[draftProfileId]
+      : program;
+  const guidance = preview.guidance,
+    sources = allSources.filter((s) => preview.sourceIds.includes(s.id));
   returnFocus = document.activeElement;
-  info.innerHTML = `<div class="dialog-top"><span class="eyebrow">SOBRE O PLANO</span><button class="round-button" data-action="close-info" aria-label="Fechar orientações">${icon("close")}</button></div><h2 id="info-title">Treinar com direção.</h2><div class="guide-content">${guidance.sections.map((s) => `<h3>${escape(s.title)}</h3><p>${escape(s.text)}</p>`).join("")}<h3>Fontes da pesquisa</h3><p>Consultadas em 19/10/2026. A divisão exata das fichas é uma aplicação prática das evidências.</p><ol class="source-list">${sources.map((s) => `<li><a href="${escape(s.url)}" target="_blank" rel="noopener noreferrer">${escape(s.title)} ↗</a></li>`).join("")}</ol></div>`;
+  info.innerHTML = `<div class="dialog-top"><span class="eyebrow">SOBRE O PLANO</span><button class="round-button" data-action="close-info" aria-label="Fechar orientações">${icon("close")}</button></div><h2 id="info-title">Ficha ${escape(preview.label.toLowerCase())}.</h2><div class="guide-content">${guidance.sections.map((s) => `<h3>${escape(s.title)}</h3><p>${escape(s.text)}</p>`).join("")}<h3>Fontes da pesquisa</h3><p>Consultadas em ${dateLabel(preview.researchDate, { day: "numeric", month: "long", year: "numeric" })}. A divisão exata das fichas é uma aplicação prática das evidências.</p><ol class="source-list">${sources.map((s) => `<li><a href="${escape(s.url)}" target="_blank" rel="noopener noreferrer">${escape(s.title)} ↗</a></li>`).join("")}</ol></div>`;
   info.showModal();
 }
 function timerPaint() {
@@ -353,7 +438,7 @@ function timerPaint() {
     inline.innerHTML = `<div>${seconds ? "Descanso" : "Pausa concluída"}</div><span>${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}</span><button data-action="stop-timer">Encerrar</button>`;
   }
   if (!seconds && !timerPaint.announced) {
-    toast("Pausa concluída. Continue quando estiver recuperada.");
+    toast("Pausa concluída. Continue quando tiver recuperado o fôlego.");
     timerPaint.announced = true;
   }
 }
@@ -362,9 +447,40 @@ document.addEventListener("click", async (event) => {
   const b = event.target.closest("[data-action]");
   if (!b) return;
   const action = b.dataset.action;
+  if (
+    action === "theme" &&
+    ["light", "dark", "system"].includes(b.dataset.value)
+  ) {
+    library.theme = b.dataset.value;
+    persist();
+    render();
+    document
+      .querySelector(
+        '[data-action="theme"][data-value="' + library.theme + '"]',
+      )
+      ?.focus();
+  }
+  if (action === "profile" && Object.hasOwn(profiles, b.dataset.value)) {
+    draftProfileId = b.dataset.value;
+    const saved = library.plans[draftProfileId]?.preferences,
+      profile = profiles[draftProfileId];
+    draft = saved
+      ? { ...saved, days: [...saved.days] }
+      : {
+          frequency: Number(Object.keys(profile.sequences)[0]),
+          days: [...profile.defaults[Object.keys(profile.sequences)[0]]],
+          startDate: isoDate(),
+        };
+    onboarding();
+    document
+      .querySelector(
+        '[data-action="profile"][data-value="' + draftProfileId + '"]',
+      )
+      ?.focus();
+  }
   if (action === "frequency") {
     draft.frequency = Number(b.dataset.value);
-    draft.days = [...program.defaults[draft.frequency]];
+    draft.days = [...profiles[draftProfileId].defaults[draft.frequency]];
     onboarding();
   }
   if (action === "weekday") {
@@ -472,7 +588,7 @@ document.addEventListener("click", async (event) => {
     toast("Cardio desmarcado.");
   }
   if (action === "export") {
-    const blob = new Blob([JSON.stringify(state, null, 2)], {
+    const blob = new Blob([JSON.stringify(library, null, 2)], {
         type: "application/json",
       }),
       url = URL.createObjectURL(blob),
@@ -489,9 +605,11 @@ document.addEventListener("click", async (event) => {
       "Apagar a rotina e todo o histórico do Ritmo neste navegador? Exporte uma cópia antes, se quiser guardar seus registros.",
     )
   ) {
-    state = { version: 1, preferences: null, logs: {} };
+    library = emptyState(catalog.defaultProfileId);
+    activateProfile();
     try {
       localStorage.removeItem(STORE_KEY);
+      localStorage.removeItem(LEGACY_STORE_KEY);
     } catch {}
     draft = null;
     timerEnd = 0;
@@ -504,13 +622,15 @@ document.addEventListener("submit", (e) => {
   if (e.target.id !== "preferences-form") return;
   e.preventDefault();
   draft.startDate = $("#start-date").value;
-  const error = validatePreferences(draft, program);
+  const error = validatePreferences(draft, profiles[draftProfileId]);
   if (error) {
     $("#form-error").textContent = error;
     $("#form-error").setAttribute("tabindex", "-1");
     $("#form-error").focus();
     return;
   }
+  library.profileId = draftProfileId;
+  activateProfile();
   state.preferences = { ...draft, days: orderedDays(draft.days) };
   persist();
   editing = false;
@@ -542,11 +662,18 @@ document.addEventListener("change", async (e) => {
   try {
     if (file.size > 2 * 1024 * 1024)
       throw new Error("Escolha uma cópia de até 2 MB.");
-    const restored = validateBackup(JSON.parse(await file.text()), program);
+    const restored = validateState(
+      JSON.parse(await file.text()),
+      profiles,
+      catalog.defaultProfileId,
+    );
     if (
       confirm("Substituir sua rotina e seu histórico pela cópia selecionada?")
     ) {
-      state = restored;
+      library = restored;
+      activateProfile();
+      draft = null;
+      editing = false;
       persist();
       render();
       toast("Cópia importada.");
@@ -571,28 +698,76 @@ window.addEventListener("hashchange", () => {
 window.addEventListener("storage", (e) => {
   if (e.key !== STORE_KEY) return;
   try {
-    if (e.newValue) state = validateBackup(JSON.parse(e.newValue), program);
-    else state = { version: 1, preferences: null, logs: {} };
+    if (e.newValue)
+      library = validateState(
+        JSON.parse(e.newValue),
+        profiles,
+        catalog.defaultProfileId,
+      );
+    else library = emptyState(catalog.defaultProfileId);
+    draft = null;
+    editing = false;
+    activateProfile();
     if (dialog.open) closeExercise();
     render();
     toast("Registros atualizados em outra aba.");
   } catch {}
 });
 try {
-  [program, exercises, sources, guidance] = await Promise.all(
-    ["program", "exercises", "sources", "guidance"].map(async (name) => {
-      const r = await fetch(`./data/${name}.json`);
-      if (!r.ok) throw new Error("Conteúdo indisponível");
-      return r.json();
-    }),
+  const loadJson = async (path) => {
+    const r = await fetch(path);
+    if (!r.ok) throw new Error("Conteúdo indisponível");
+    return r.json();
+  };
+  [catalog, exercises, allSources] = await Promise.all(
+    ["profiles", "exercises", "sources"].map((name) =>
+      loadJson("./data/" + name + ".json"),
+    ),
   );
+  if (
+    catalog.schemaVersion !== 1 ||
+    !Array.isArray(catalog.profiles) ||
+    !catalog.profiles.length
+  )
+    throw new Error("Catálogo inválido");
+  profiles = Object.fromEntries(
+    await Promise.all(
+      catalog.profiles.map(async (entry) => {
+        if (!/^\.\/data\/profiles\/[a-z][a-z0-9-]*\.json$/.test(entry.file))
+          throw new Error("Caminho de ficha inválido");
+        const p = validateProfile(
+          await loadJson(entry.file),
+          exercises,
+          allSources,
+        );
+        if (p.id !== entry.id)
+          throw new Error("Identificação de ficha inválida");
+        return [p.id, p];
+      }),
+    ),
+  );
+  if (
+    !Object.hasOwn(profiles, catalog.defaultProfileId) ||
+    Object.keys(profiles).length !== catalog.profiles.length
+  )
+    throw new Error("Catálogo inválido");
+  library = emptyState(catalog.defaultProfileId);
   try {
-    const saved = localStorage.getItem(STORE_KEY);
-    if (saved) state = validateBackup(JSON.parse(saved), program);
+    const saved = localStorage.getItem(STORE_KEY),
+      legacy = !saved && localStorage.getItem(LEGACY_STORE_KEY);
+    if (saved || legacy)
+      library = validateState(
+        JSON.parse(saved || legacy),
+        profiles,
+        catalog.defaultProfileId,
+      );
+    activateProfile();
+    if (legacy) persist();
   } catch {
     storageWarning =
       "Os dados salvos não puderam ser lidos. Você pode importar uma cópia em Ajustes ou montar uma nova rotina.";
   }
+  activateProfile();
   syncHash();
   if ("serviceWorker" in navigator)
     navigator.serviceWorker.register("./sw.js").catch(() => {});

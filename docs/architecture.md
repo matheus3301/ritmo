@@ -1,53 +1,66 @@
-# Ritmo
+# Contrato dos perfis e renderizador
 
-Aplicação web estática para acompanhar o plano A/B/C de uma mulher iniciante. Sem backend, autenticação, banco de dados ou dependências de execução. HTML, CSS e módulos JavaScript nativos.
+`dist/` é o aplicativo estático completo. `app.js` renderiza a interface; `core.js` contém calendário, validação, progresso e migração. Não há conta ou serviço de armazenamento.
 
-## Usar e desenvolver
+## Catálogo
 
-Execute `npm start` e abra `http://127.0.0.1:43187`. O servidor de desenvolvimento usa Node.js, sem dependências externas. Não abra o HTML por `file://`, pois o conteúdo é carregado por `fetch`.
+`data/profiles.json` tem `schemaVersion: 1`, `defaultProfileId` e uma lista de `{id, file}`. Os caminhos devem apontar para `./data/profiles/<id>.json`. IDs são únicos, estáveis e em minúsculas. Não altere o ID de um perfil publicado: ele identifica seus dados locais.
 
-Execute `npm test` para verificar agenda, datas locais, volume, adaptação, integridade das mídias e importação de registros. Node.js 22 ou superior é suficiente. Não há etapa de build: `dist/` já contém o site publicável.
+## Perfil
 
-## Conteúdo
+Cada arquivo declara:
 
-- `dist/data/program.json`: fichas, séries, repetições, pausas, adaptação e calendários.
-- `dist/data/exercises.json`: nomes, instruções e demonstrações dos 15 exercícios.
-- `dist/data/guidance.json`: orientações do plano, progressão e privacidade.
-- `dist/data/sources.json`: nove fontes da pesquisa científica anterior.
-- `research/exercise-media.json`: metadados, correspondência de variantes e limites de verificação dos vídeos.
-- `research/skills.json`: pesquisa de skills consultada em 19/10/2026.
-- A skill beautiful-prose foi consultada no repositório de origem; seu texto não é redistribuído.
+| Campo | Uso |
+| --- | --- |
+| `schemaVersion`, `id` | Versão do contrato e identidade do perfil |
+| `label`, `subtitle`, `audience` | Nome, foco e público apresentados |
+| `researchDate`, `sourceIds`, `guidance.sections` | Pesquisa e orientações do perfil |
+| `durationWeeks`, `adaptationWeeks`, `adaptationRir`, `baseRir` | Duração e instruções de esforço |
+| `workouts` | Sessões por ID, com nome, duração estimada, grupos de recuperação e exercícios |
+| `sequences` | Ordem das sessões para cada frequência semanal; `cardio` é reservado |
+| `defaults` | Dias sugeridos, de 0 (domingo) a 6 (sábado) |
+| `adaptationSets` | Número reduzido de séries por sessão/exercício; zero omite o exercício |
+| `supplements` | Complementos por frequência e sessão, cada um com `adaptationSets` próprio |
+| `recoveryGroups`, `recoveryNote` | Grupos que exigem pelo menos um dia sem novo estímulo programado e orientação apresentada |
+| `scheduleHints`, `cardio` | Explicação de cada agenda e duração/orientação do aeróbico |
 
-As variantes da interface foram delimitadas para corresponder às demonstrações. O agachamento usa halter (goblet); a flexora é sentada; o tríceps usa barra reta; a elevação lateral é sentada; a prancha usa mãos e joelhos. Não trocar o nome mantendo um vídeo de outra variação. Trocas de exercício devem ser avaliadas pelo instrutor e exigir sua própria mídia.
+Cada prescrição contém `exerciseId`, `sets` (1-5), `reps`, `restSeconds` e `restLabel`. A biblioteca compartilhada fornece nome, cue, mídia, `measurement` (`reps` ou `seconds`), nota de registro e `volumeGroups` para gerar tabelas. As séries unilaterais são contadas depois dos dois lados.
 
-## Estado local
+O motor ordena os dias de segunda a domingo, aplica a sequência e confere a recuperação também na virada da semana. Um suplemento pode mudar o conteúdo de uma sessão conforme a frequência. Se acrescentar um grupo relevante, inclua-o nas regras da sessão; a validação não deduz músculos da biomecânica.
 
-A chave `ritmo:v1` do `localStorage` contém versão, preferências e registros por data e ficha. Nenhum registro é enviado a servidor. O arquivo de exportação também é JSON, validado antes da importação. A importação e a exclusão pedem confirmação na interface. Alterar o plano preserva o histórico e a prescrição originalmente registrada.
+`validateProfile` verifica referências, séries, adaptação, sessões e calendários antes de renderizar. Os testes também incluem um terceiro perfil sintético com uma sessão D, para impedir que o motor volte a depender de nomes de sexo ou somente A/B/C.
 
-Dados pertencem à origem e ao navegador usados. Trocar de endereço de hospedagem, limpar dados do navegador ou fechar a última aba privada pode impedir a recuperação. Oferecemos exportação/importação, sem prometer sincronização.
+## Histórico e compatibilidade
 
-## Instalação e cache
+A chave atual de armazenamento é `ritmo:v2`:
 
-O manifesto permite adicionar o app à tela inicial. O service worker armazena apenas os arquivos estáticos enumerados, sem interceptar YouTube ou outros domínios. Requer HTTPS em produção (localhost também é permitido). Ao alterar qualquer conteúdo em `dist/`, incremente a versão `CACHE` em `sw.js`. A atualização passa a valer após fechar as abas antigas e reabrir o site. Nenhum arquivo de usuário entra no cache do service worker.
+```json
+{
+  "version": 2,
+  "profileId": "masculino",
+  "theme": "system",
+  "plans": {
+    "masculino": {
+      "version": 1,
+      "preferences": {"frequency": 3, "days": [1, 3, 5], "startDate": "2026-10-19"},
+      "logs": {}
+    }
+  }
+}
+```
 
-## Mídias e atribuição
+O `version: 1` interno identifica o formato de um plano, encapsulado no formato de biblioteca v2. Cada perfil tem preferências, data de início e histórico próprios. Trocar de perfil restaura sua agenda anterior. Ajustar dias não apaga o histórico. O perfil ativo e o tema são globais no aparelho.
 
-Os 15 vídeos foram encontrados por busca e verificados por metadados oEmbed e inspeção de miniaturas oficiais mostrando mulheres. Há 5 vídeos em português e 10 em inglês. Não foram assistidos integralmente. O player incorporado de hip thrust foi carregado e seus controles foram verificados na prévia; a reprodução de todos os vídeos em todos os dispositivos não foi certificada.
+O formato legado `ritmo:v1` e cópias v1 são migrados para o perfil padrão feminino. A chave antiga permanece como recuperação até uma exclusão explícita pelo usuário. Uma v2 existente tem prioridade. Importações validam todos os perfis antes de substituir o estado; perfis desconhecidos são rejeitados para evitar descarte silencioso. Exportações v2 incluem todos os perfis salvos.
 
-Não hospedamos cópias dos vídeos. A capa e o player vêm do YouTube, com atribuição ao canal e link externo. Algumas capas são de vídeos sobre erros: a interface orienta assistir à explicação, em vez de copiar a pose da miniatura. Incorporação, disponibilidade, legendas e restrições dependem do canal e do YouTube. O link externo permanece disponível. O modo `youtube-nocookie.com` não significa ausência de comunicação com o YouTube; imagens também fazem requisições ao serviço.
+Os registros usam `data:sessão` dentro do perfil. Guardam um snapshot de exercício/séries para calcular sessões concluídas sem depender da agenda atual. O histórico é exibido para o perfil ativo. O tema não interfere nos registros.
 
-As fontes Bricolage Grotesque e Manrope são hospedadas localmente, com licenças OFL em `dist/assets/`. Ícones de interface em SVG são incluídos no código.
+## Cache e versões
 
-## Decisões de design
+O service worker mantém o aplicativo e todos os perfis no cache da própria aplicação. Ao adicionar arquivos, atualize `FILES` em `sw.js` e incremente a versão do cache. O teste confere a presença de todos os perfis. A nova versão assume quando todas as abas antigas forem fechadas, evitando substituir uma sessão aberta de treino.
 
-Público: iniciante usando o telefone durante a academia. A tela inicial mostra treino do dia, séries realizadas e o que vem amanhã. A, B e C são a referência visual, como fichas de treino, e não números decorativos.
+O tema é aplicado antes da primeira pintura por `theme-init.js`; o aplicativo acompanha mudanças na preferência do aparelho quando o modo automático está selecionado.
 
-Paleta: papel `#F7F8FC`, tinta `#24213A`, íris `#5B4CCE`, lilás `#EDEAFF`, menta `#D9EBE7`, coral `#F4B3A3`. Bricolage nos títulos, Manrope nos controles e textos. Navegação inferior no celular e lateral no desktop. Movimento limitado a feedback de interação, respeitando a preferência por movimento reduzido.
+## Fichas reproduzíveis
 
-## Verificação
-
-Os testes automatizados cobrem as regras de negócio. A revisão no navegador incluiu configuração de cinco dias, ficha e agenda, registro de carga/repetições, recarga com persistência, histórico, exportação e importação, player e cronômetro. Layouts examinados em 320, 390 e 1440 pixels. Ver `research/verification.txt` para o resultado final e limites.
-
-## Publicação
-
-O Dockerfile serve apenas `dist/` com nginx, usuário 101 e porta 8080. Consulte [Deploy](DEPLOYMENT.md).
+`npm run sheets` lê os mesmos perfis, biblioteca e fontes, valida-os e escreve as fichas Markdown e o relatório de pesquisa. Não edite as fichas geradas à mão. `volumeGroups` é uma classificação editorial explícita, sem conversão automática de séries indiretas em séries diretas.

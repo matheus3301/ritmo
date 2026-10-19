@@ -1,0 +1,324 @@
+{
+  "version": 1,
+  "title": "Ritmo",
+  "researchDate": "2026-10-19",
+  "durationWeeks": 12,
+  "workouts": {
+    "A": {
+      "id": "A",
+      "name": "Glúteos e quadríceps",
+      "minutes": "45-60",
+      "focus": "Força na base. Controle em cada repetição.",
+      "exercises": [
+        {
+          "exerciseId": "hip-thrust",
+          "sets": 3,
+          "reps": "8-12",
+          "restSeconds": 120,
+          "restLabel": "2-3 min"
+        },
+        {
+          "exerciseId": "squat",
+          "sets": 2,
+          "reps": "8-12",
+          "restSeconds": 150,
+          "restLabel": "2-3 min"
+        },
+        {
+          "exerciseId": "leg-curl",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 90,
+          "restLabel": "90 s"
+        },
+        {
+          "exerciseId": "abduction",
+          "sets": 2,
+          "reps": "12-20",
+          "restSeconds": 75,
+          "restLabel": "60-90 s"
+        },
+        {
+          "exerciseId": "calf",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 75,
+          "restLabel": "60-90 s"
+        }
+      ],
+      "recoveryGroups": [
+        "inferiores"
+      ]
+    },
+    "B": {
+      "id": "B",
+      "name": "Superiores e tronco",
+      "minutes": "40-55",
+      "focus": "Costas, braços e tronco também fazem parte.",
+      "exercises": [
+        {
+          "exerciseId": "pulldown",
+          "sets": 2,
+          "reps": "8-12",
+          "restSeconds": 120,
+          "restLabel": "90-120 s"
+        },
+        {
+          "exerciseId": "chest-press",
+          "sets": 2,
+          "reps": "8-12",
+          "restSeconds": 120,
+          "restLabel": "90-120 s"
+        },
+        {
+          "exerciseId": "row",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 120,
+          "restLabel": "90-120 s"
+        },
+        {
+          "exerciseId": "lateral-raise",
+          "sets": 2,
+          "reps": "12-15",
+          "restSeconds": 75,
+          "restLabel": "60-90 s"
+        },
+        {
+          "exerciseId": "triceps",
+          "sets": 1,
+          "reps": "10-15",
+          "restSeconds": 75,
+          "restLabel": "60-90 s"
+        },
+        {
+          "exerciseId": "curl",
+          "sets": 1,
+          "reps": "10-15",
+          "restSeconds": 75,
+          "restLabel": "60-90 s"
+        },
+        {
+          "exerciseId": "dead-bug",
+          "sets": 2,
+          "reps": "6-10 por lado",
+          "restSeconds": 60,
+          "restLabel": "45-60 s"
+        }
+      ],
+      "recoveryGroups": [
+        "superiores"
+      ]
+    },
+    "C": {
+      "id": "C",
+      "name": "Glúteos e posteriores",
+      "minutes": "50-65",
+      "focus": "Movimentos firmes, com tempo para recuperar.",
+      "exercises": [
+        {
+          "exerciseId": "rdl",
+          "sets": 2,
+          "reps": "8-12",
+          "restSeconds": 150,
+          "restLabel": "2-3 min"
+        },
+        {
+          "exerciseId": "split-squat",
+          "sets": 2,
+          "reps": "8-12 por perna",
+          "restSeconds": 120,
+          "restLabel": "90-120 s após os dois lados"
+        },
+        {
+          "exerciseId": "hip-thrust",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 120,
+          "restLabel": "2 min"
+        },
+        {
+          "exerciseId": "leg-curl",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 90,
+          "restLabel": "90 s"
+        },
+        {
+          "exerciseId": "calf",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 75,
+          "restLabel": "60-90 s"
+        },
+        {
+          "exerciseId": "plank",
+          "sets": 2,
+          "reps": "15-30 s",
+          "restSeconds": 60,
+          "restLabel": "45-60 s"
+        }
+      ],
+      "recoveryGroups": [
+        "inferiores"
+      ]
+    }
+  },
+  "adaptationSets": {
+    "A": {
+      "hip-thrust": 2,
+      "squat": 2,
+      "leg-curl": 1,
+      "abduction": 1,
+      "calf": 1
+    },
+    "B": {
+      "pulldown": 1,
+      "chest-press": 1,
+      "row": 1,
+      "lateral-raise": 1,
+      "triceps": 1,
+      "curl": 1,
+      "dead-bug": 1
+    },
+    "C": {
+      "rdl": 2,
+      "split-squat": 1,
+      "hip-thrust": 0,
+      "leg-curl": 1,
+      "calf": 1,
+      "plank": 1
+    }
+  },
+  "defaults": {
+    "3": [
+      1,
+      3,
+      5
+    ],
+    "4": [
+      1,
+      2,
+      4,
+      5
+    ],
+    "5": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "sequences": {
+    "3": [
+      "A",
+      "B",
+      "C"
+    ],
+    "4": [
+      "A",
+      "B",
+      "C",
+      "B"
+    ],
+    "5": [
+      "A",
+      "B",
+      "cardio",
+      "C",
+      "B"
+    ]
+  },
+  "schemaVersion": 1,
+  "id": "feminino",
+  "label": "Feminina",
+  "subtitle": "Glúteos e composição corporal",
+  "audience": "Pessoa adulta iniciante, com foco em glúteos e apoio à perda de gordura.",
+  "adaptationWeeks": 2,
+  "adaptationRir": "3-4",
+  "baseRir": "2-3",
+  "sourceIds": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+  ],
+  "guidance": {
+    "sections": [
+      {
+        "title": "Um ponto de partida",
+        "text": "Plano educativo para uma mulher adulta iniciante, com foco em força, desenvolvimento dos glúteos e apoio à perda de gordura. Revise a ficha com o profissional da academia. Idade, lesões, gestação, pós-parto e condições clínicas podem exigir mudanças."
+      },
+      {
+        "title": "Semanas 1 e 2: aprender",
+        "text": "O aplicativo reduz as séries automaticamente. Encerre cada uma com 3-4 repetições em reserva. Faça 5-8 minutos leves e séries progressivas de preparação antes dos exercícios principais."
+      },
+      {
+        "title": "Da semana 3 em diante",
+        "text": "As séries aumentam para a ficha base. Só acompanhe esse aumento se estiver recuperando bem; o instrutor pode manter a adaptação por mais tempo. Use 2-3 repetições em reserva. Em 3 × 8-12, quando conseguir 12/12/12 em duas sessões com boa técnica, experimente o menor aumento de carga disponível."
+      },
+      {
+        "title": "Seu calendário",
+        "text": "3 dias: A, B, C, com supino e remada adicionais no C. 4 dias: A, B, C, B. 5 dias: A, B, cardio, C, B. Mantenha um dia sem treino pesado de inferiores entre A e C. Não compense faltas juntando fichas de pernas."
+      },
+      {
+        "title": "Cardio e recuperação",
+        "text": "Construa gradualmente a referência de 150 minutos semanais de cardio moderado. Caminhadas fora da academia contam. Preserve o sono e diminua o trabalho se o desempenho cair por várias sessões."
+      },
+      {
+        "title": "Sobre emagrecer",
+        "text": "O treino não escolhe de onde a gordura será perdida. A alimentação precisa sustentar a rotina; uma restrição forte pode dificultar o ganho de massa muscular. Calorias e proteína devem ser ajustadas individualmente."
+      },
+      {
+        "title": "Ao terminar 12 semanas",
+        "text": "Reavalie o plano com o instrutor. A ficha base continuará acessível, sem aumento automático de carga ou volume."
+      },
+      {
+        "title": "Dados e vídeos",
+        "text": "Seus registros ficam neste navegador, sem conta ou sincronização. As imagens e vídeos são carregados do YouTube; ao abri-los, valem as políticas desse serviço. O canal pode remover ou bloquear um vídeo. Use o link “Abrir no YouTube” se o player não funcionar."
+      }
+    ]
+  },
+  "recoveryGroups": [
+    "inferiores"
+  ],
+  "recoveryNote": "Preserve um dia sem treino pesado de inferiores entre A e C. Não junte fichas para compensar faltas.",
+  "scheduleHints": {
+    "3": "A + B + C. O treino C inclui um complemento de superiores.",
+    "4": "A + B + C + B. Mais espaço para superiores.",
+    "5": "A + B + cardio + C + B. O quinto dia cuida do fôlego."
+  },
+  "cardio": {
+    "adaptationMinutes": "20-30",
+    "baseMinutes": "30-45",
+    "text": "Escolha caminhada, bicicleta ou elíptico. Comece com 20-30 minutos em intensidade que permita conversar e aumente aos poucos, conforme sua recuperação."
+  },
+  "supplements": {
+    "3": {
+      "C": [
+        {
+          "exerciseId": "chest-press",
+          "sets": 2,
+          "reps": "8-12",
+          "restSeconds": 120,
+          "restLabel": "90-120 s",
+          "adaptationSets": 1
+        },
+        {
+          "exerciseId": "row",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 120,
+          "restLabel": "90-120 s",
+          "adaptationSets": 1
+        }
+      ]
+    }
+  }
+}

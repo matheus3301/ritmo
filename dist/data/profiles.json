@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "defaultProfileId": "feminino",
+  "profiles": [
+    {
+      "id": "feminino",
+      "file": "./data/profiles/feminino.json"
+    },
+    {
+      "id": "masculino",
+      "file": "./data/profiles/masculino.json"
+    }
+  ]
+}

@@ -1,0 +1,319 @@
+{
+  "version": 1,
+  "title": "Ritmo",
+  "researchDate": "2026-10-19",
+  "durationWeeks": 12,
+  "workouts": {
+    "A": {
+      "id": "A",
+      "name": "Superiores completos",
+      "minutes": "50-65",
+      "focus": "Peito, costas, ombros e braços. Uma base equilibrada.",
+      "recoveryGroups": [
+        "superiores"
+      ],
+      "exercises": [
+        {
+          "exerciseId": "chest-press",
+          "sets": 3,
+          "reps": "8-12",
+          "restSeconds": 120,
+          "restLabel": "2-3 min"
+        },
+        {
+          "exerciseId": "pulldown",
+          "sets": 3,
+          "reps": "8-12",
+          "restSeconds": 120,
+          "restLabel": "2-3 min"
+        },
+        {
+          "exerciseId": "row",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 120,
+          "restLabel": "2-3 min"
+        },
+        {
+          "exerciseId": "lateral-raise",
+          "sets": 2,
+          "reps": "12-20",
+          "restSeconds": 90,
+          "restLabel": "60-90 s"
+        },
+        {
+          "exerciseId": "triceps",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 90,
+          "restLabel": "60-90 s"
+        },
+        {
+          "exerciseId": "curl",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 90,
+          "restLabel": "60-90 s"
+        }
+      ]
+    },
+    "B": {
+      "id": "B",
+      "name": "Pernas e tronco",
+      "minutes": "45-60",
+      "focus": "Quadríceps, posteriores, glúteos e panturrilhas também crescem.",
+      "recoveryGroups": [
+        "inferiores"
+      ],
+      "exercises": [
+        {
+          "exerciseId": "squat",
+          "sets": 3,
+          "reps": "8-12",
+          "restSeconds": 150,
+          "restLabel": "2-3 min"
+        },
+        {
+          "exerciseId": "rdl",
+          "sets": 2,
+          "reps": "8-12",
+          "restSeconds": 150,
+          "restLabel": "2-3 min"
+        },
+        {
+          "exerciseId": "leg-curl",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 90,
+          "restLabel": "90 s"
+        },
+        {
+          "exerciseId": "calf",
+          "sets": 3,
+          "reps": "10-15",
+          "restSeconds": 90,
+          "restLabel": "60-90 s"
+        },
+        {
+          "exerciseId": "dead-bug",
+          "sets": 2,
+          "reps": "6-10 por lado",
+          "restSeconds": 60,
+          "restLabel": "45-60 s"
+        }
+      ]
+    },
+    "C": {
+      "id": "C",
+      "name": "Corpo inteiro",
+      "minutes": "55-70",
+      "focus": "O segundo estímulo da semana, da cabeça aos pés.",
+      "recoveryGroups": [
+        "superiores",
+        "inferiores"
+      ],
+      "exercises": [
+        {
+          "exerciseId": "split-squat",
+          "sets": 2,
+          "reps": "8-12 por perna",
+          "restSeconds": 120,
+          "restLabel": "2 min após os dois lados"
+        },
+        {
+          "exerciseId": "chest-press",
+          "sets": 3,
+          "reps": "8-12",
+          "restSeconds": 120,
+          "restLabel": "2-3 min"
+        },
+        {
+          "exerciseId": "row",
+          "sets": 3,
+          "reps": "10-15",
+          "restSeconds": 120,
+          "restLabel": "2-3 min"
+        },
+        {
+          "exerciseId": "leg-curl",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 90,
+          "restLabel": "90 s"
+        },
+        {
+          "exerciseId": "lateral-raise",
+          "sets": 2,
+          "reps": "12-20",
+          "restSeconds": 90,
+          "restLabel": "60-90 s"
+        },
+        {
+          "exerciseId": "calf",
+          "sets": 2,
+          "reps": "10-15",
+          "restSeconds": 90,
+          "restLabel": "60-90 s"
+        },
+        {
+          "exerciseId": "dead-bug",
+          "sets": 1,
+          "reps": "6-10 por lado",
+          "restSeconds": 60,
+          "restLabel": "45-60 s"
+        }
+      ]
+    }
+  },
+  "adaptationSets": {
+    "A": {
+      "chest-press": 2,
+      "pulldown": 2,
+      "row": 1,
+      "lateral-raise": 1,
+      "triceps": 1,
+      "curl": 1
+    },
+    "B": {
+      "squat": 2,
+      "rdl": 1,
+      "leg-curl": 1,
+      "calf": 2,
+      "dead-bug": 1
+    },
+    "C": {
+      "split-squat": 1,
+      "chest-press": 2,
+      "row": 2,
+      "leg-curl": 1,
+      "lateral-raise": 1,
+      "calf": 1,
+      "dead-bug": 1
+    }
+  },
+  "defaults": {
+    "3": [
+      1,
+      3,
+      5
+    ],
+    "4": [
+      1,
+      2,
+      4,
+      5
+    ],
+    "5": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "sequences": {
+    "3": [
+      "A",
+      "B",
+      "C"
+    ],
+    "4": [
+      "A",
+      "B",
+      "A",
+      "B"
+    ],
+    "5": [
+      "A",
+      "B",
+      "cardio",
+      "A",
+      "B"
+    ]
+  },
+  "schemaVersion": 1,
+  "id": "masculino",
+  "label": "Masculina",
+  "subtitle": "Hipertrofia geral e proporção",
+  "audience": "Pessoa adulta iniciante, com foco em desenvolvimento muscular do corpo inteiro.",
+  "adaptationWeeks": 2,
+  "adaptationRir": "3-4",
+  "baseRir": "2-3",
+  "sourceIds": [
+    "1",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "4",
+    "5",
+    "6",
+    "7",
+    "9"
+  ],
+  "guidance": {
+    "sections": [
+      {
+        "title": "Um ponto de partida",
+        "text": "Ficha educativa para iniciantes, com foco em hipertrofia geral e proporção entre superiores e inferiores. O nome do perfil indica o foco: qualquer pessoa pode escolher a ficha que combina com seu objetivo. Ajuste com o profissional da academia; não existe um treino ideal para todas as pessoas."
+      },
+      {
+        "title": "Semanas 1 e 2: aprender",
+        "text": "O aplicativo reduz as séries automaticamente. Encerre cada uma com 3-4 repetições em reserva. Faça 5-8 minutos leves e séries progressivas de preparação antes dos exercícios principais."
+      },
+      {
+        "title": "Da semana 3 em diante",
+        "text": "As séries aumentam para a ficha base. Só acompanhe esse aumento se estiver recuperando bem; o instrutor pode manter a adaptação por mais tempo. Use 2-3 repetições em reserva. Em 3 × 8-12, quando conseguir 12/12/12 em duas sessões com boa técnica, experimente o menor aumento de carga disponível."
+      },
+      {
+        "title": "Seu calendário",
+        "text": "3 dias: A (superiores), B (inferiores), C (corpo inteiro). 4 dias: A, B, A, B. 5 dias: A, B, cardio, A, B. Um dia sem musculação do mesmo grupo separa os estímulos. O quinto dia não acrescenta mais séries de pernas ou braços."
+      },
+      {
+        "title": "Volume para começar",
+        "text": "A ficha base começa com volume moderado: aproximadamente 5-10 séries semanais direcionadas aos grandes grupos, conforme a agenda. Supinos e puxadas também trabalham braços e ombros. Não some todas essas séries como se cada músculo fosse o alvo principal. Mais volume pode ajudar, mas aumenta a exigência de recuperação. Reavalie antes de acrescentar séries."
+      },
+      {
+        "title": "Carga, esforço e descanso",
+        "text": "As faixas de repetições organizam a prática; não são uma faixa mágica de hipertrofia. Use movimentos controlados, amplitude confortável e 2-3 repetições em reserva na fase base. Essa reserva é uma estimativa, especialmente no início. Descanse 2-3 minutos nos exercícios principais e 60-90 segundos nos acessórios; prolongue a pausa se ainda estiver sem fôlego."
+      },
+      {
+        "title": "Cardio e recuperação",
+        "text": "Construa gradualmente a referência de 150 minutos semanais de cardio moderado. Caminhadas fora da academia contam. Preserve o sono e diminua o trabalho se o desempenho cair por várias sessões."
+      },
+      {
+        "title": "Comer e recuperar",
+        "text": "Ganhar massa exige energia e proteína suficientes. Evite combinar a ficha com restrição alimentar agressiva. A pesquisa sobre proteína aponta uma referência populacional próxima de 1,6 g/kg/dia, com variação individual; ela não determina uma dieta pessoal nem exige suplemento. Ajuste a alimentação com nutricionista e preserve pelo menos 7 horas de sono, conforme suas necessidades."
+      },
+      {
+        "title": "Quando ajustar",
+        "text": "Se a técnica piorar, a dor persistir ou o desempenho cair por várias sessões, reduza carga ou séries e converse com o instrutor. Dor aguda ou articular pede interrupção do exercício. Lesões e condições clínicas podem exigir outro plano. O aumento de séries na semana 3 só faz sentido se a recuperação permitir."
+      },
+      {
+        "title": "Ao terminar 12 semanas",
+        "text": "Reavalie o plano com o instrutor. A ficha base continuará acessível, sem aumento automático de carga ou volume."
+      },
+      {
+        "title": "Dados e vídeos",
+        "text": "Seus registros ficam neste navegador, sem conta ou sincronização. As imagens e vídeos são carregados do YouTube; ao abri-los, valem as políticas desse serviço. O canal pode remover ou bloquear um vídeo. Use o link “Abrir no YouTube” se o player não funcionar."
+      }
+    ]
+  },
+  "recoveryGroups": [
+    "superiores",
+    "inferiores"
+  ],
+  "recoveryNote": "Deixe um dia sem musculação do mesmo grupo entre suas sessões, inclusive na virada da semana. Não junte fichas para compensar faltas.",
+  "scheduleHints": {
+    "3": "A + B + C. Superiores, inferiores e corpo inteiro.",
+    "4": "A + B + A + B. Dois estímulos por região na semana.",
+    "5": "A + B + cardio + A + B. Quatro sessões de força e uma de fôlego."
+  },
+  "cardio": {
+    "adaptationMinutes": "20-30",
+    "baseMinutes": "30-45",
+    "text": "Escolha caminhada, bicicleta ou elíptico. Comece com 20-30 minutos em intensidade que permita conversar e aumente aos poucos, conforme sua recuperação."
+  },
+  "supplements": {}
+}
