@@ -1,8 +1,8 @@
-const CACHE = "ritmo-static-v8";
+const CACHE = "ritmo-static-v9";
 const FILES = [
   "./",
   "./index.html",
-  "./app.js",
+  "./app.js?v=1.1.1",
   "./core.js",
   "./style.css",
   "./data/profiles.json",
@@ -21,7 +21,7 @@ const urls = new Set(
   FILES.map((path) => new URL(path, self.location.href).href),
 );
 self.addEventListener("install", (event) =>
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(FILES))),
+  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(FILES.map(path => new Request(new URL(path, self.location.href), { cache: "reload" }))))),
 );
 self.addEventListener("activate", (event) =>
   event.waitUntil(

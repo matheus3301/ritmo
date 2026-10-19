@@ -713,6 +713,9 @@ window.addEventListener("storage", (e) => {
     toast("Registros atualizados em outra aba.");
   } catch {}
 });
+// Check for an update even if a cached content file prevents startup.
+if ("serviceWorker" in navigator)
+  navigator.serviceWorker.register("./sw.js").catch(() => {});
 try {
   const loadJson = async (path) => {
     const r = await fetch(path);
@@ -769,8 +772,7 @@ try {
   }
   activateProfile();
   syncHash();
-  if ("serviceWorker" in navigator)
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
+
 } catch (error) {
   console.error("Ritmo: falha ao carregar conteúdo", error.message);
   app.innerHTML = `<main class="empty-state"><h1>O treino não carregou.</h1><p>Confira a conexão e tente novamente. Seus registros salvos não foram alterados.</p><button class="button primary" id="reload">Tentar novamente</button></main>`;

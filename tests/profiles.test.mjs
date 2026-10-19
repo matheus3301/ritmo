@@ -176,3 +176,10 @@ test("offline manifest includes every profile and theme startup asset", () => {
   for (const p of catalog.profiles) assert.ok(sw.includes('"' + p.file + '"'));
   assert.ok(sw.includes('"./theme-init.js"'));
 });
+
+test('HTML entry point is versioned and included in the offline cache',()=>{
+ const html=readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
+ const sw=readFileSync(new URL('../dist/sw.js',import.meta.url),'utf8');
+ const entry=html.match(/<script type="module" src="([^"]+)"/)[1];
+ assert.match(entry,/\?v=/);assert.ok(sw.includes('"'+entry+'"'));
+});
