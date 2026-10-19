@@ -771,7 +771,8 @@ try {
   syncHash();
   if ("serviceWorker" in navigator)
     navigator.serviceWorker.register("./sw.js").catch(() => {});
-} catch {
+} catch (error) {
+  console.error("Ritmo: falha ao carregar conteúdo", error.message);
   app.innerHTML = `<main class="empty-state"><h1>O treino não carregou.</h1><p>Confira a conexão e tente novamente. Seus registros salvos não foram alterados.</p><button class="button primary" id="reload">Tentar novamente</button></main>`;
   $("#reload").addEventListener("click", () => location.reload());
 }
