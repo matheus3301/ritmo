@@ -1,5 +1,7 @@
 # Deploy no Coolify
 
+Instância pública: **https://ritmo.mmonteiro.dev**. Projeto `Ritmo`, aplicação `ritmo`, ambiente `production`.
+
 O Ritmo é um site estático. O Dockerfile inclui somente nginx, configuração e `dist/`. Não há build de frontend, banco de dados, autenticação ou segredo de runtime.
 
 ## Configuração

@@ -10,6 +10,8 @@
   </p>
 </div>
 
+**[Abrir o Ritmo →](https://ritmo.mmonteiro.dev)**
+
 O Ritmo organiza um plano educativo de academia para uma mulher adulta iniciante, com foco em fortalecimento, hipertrofia de glúteos e apoio ao emagrecimento. A interface foi pensada para consultar entre as séries: treino do dia, próximo exercício e demonstração no mesmo lugar.
 
 **HTML, CSS e JavaScript nativos. Sem cadastro, banco de dados ou dependências de execução no navegador.** Preferências e registros ficam no aparelho.
