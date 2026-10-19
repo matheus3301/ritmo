@@ -14,3 +14,5 @@ Limites: verificação em navegador desktop com dimensões móveis, sem teste em
 Preparação open source e Docker (19/10/2026): fonte formatada; nove testes aprovados novamente; npm audit sem vulnerabilidades (sem dependências externas). Imagem nginx 1.30.6 Alpine fixada por digest. Scanner Trivy 0.76.0 encontrou libexpat/libx11 com correções disponíveis; ambos atualizados no Dockerfile. Nova análise não encontrou vulnerabilidades HIGH/CRITICAL. Esse resultado é um recorte de severidade e data, não garantia de ausência de falhas.
 
 Container local: UID/GID 101:101, filesystem somente leitura, /tmp temporário, capabilities removidas; health check aprovado e /health, página inicial e JSON de fichas servidos. Primeiro deploy no Coolify concluído com estado finished e container healthy. Página e /health verificados por HTTPS, inclusive na origem com certificado válido.
+
+Produção: fluxo de configuração de quatro dias validado em viewport de 390 pixels; treino de hoje e amanhã corretos, sem erros de console observados. Deploy automático confirmado por is_webhook=true após push de documentação. Imagem final local de aproximadamente 67,6 MiB.

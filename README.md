@@ -16,6 +16,8 @@ O Ritmo organiza um plano educativo de academia para uma mulher adulta iniciante
 
 **HTML, CSS e JavaScript nativos. Sem cadastro, banco de dados ou dependências de execução no navegador.** Preferências e registros ficam no aparelho.
 
+<p align="center"><img src="docs/preview-mobile.png" width="320" alt="Ritmo no celular: calendário semanal, treino A e lista de exercícios"></p>
+
 ## O que você pode fazer
 
 - Escolher **3, 4 ou 5 dias por semana**, os dias disponíveis e a data de início.
